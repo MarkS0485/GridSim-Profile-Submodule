@@ -1,0 +1,547 @@
+{
+  "family": "Interconnects",
+  "tables": {
+    "links": {
+      "kind": "reference",
+      "description": "One row per interconnector in the NESO interconnector register (latest snapshot on or before the last-updated date): built links and pipeline projects with their registered capacity, connection and planned dates. Each built link has its own folder; projects not yet built are filed under Interconnects/Pipeline. Flow and limit statistics are in link_flows.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable identifier: 'ic-' plus the slug of the project name (and stage where the register splits a link into stages).",
+          "source": "derived: identity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Register snapshot the row was built from.",
+          "source": "derived: input file",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "NESO interconnector register project number.",
+          "source": "InterconnectorRegister project_number",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "project_name",
+          "type": "string",
+          "unit": null,
+          "description": "Project name as registered.",
+          "source": "InterconnectorRegister project_name",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "owner",
+          "type": "string",
+          "unit": null,
+          "description": "Registered customer (owner or developer).",
+          "source": "InterconnectorRegister customer_name",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "connection_site",
+          "type": "string",
+          "unit": null,
+          "description": "GB connection substation as registered.",
+          "source": "InterconnectorRegister connection_site",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "connection_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "Connection voltage, read from the connection site name (for example 'Grain 400kV Substation').",
+          "source": "derived: connection_site",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "stage",
+          "type": "string",
+          "unit": null,
+          "description": "Register stage, where a link is registered in stages.",
+          "source": "InterconnectorRegister stage",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "project_status",
+          "type": "string",
+          "unit": null,
+          "description": "Built, Under Construction/Commissioning, Awaiting Consents or Scoping.",
+          "source": "InterconnectorRegister project_status",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "is_built",
+          "type": "bool",
+          "unit": null,
+          "description": "True when project_status is Built.",
+          "source": "derived: project_status",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "link_folder",
+          "type": "string",
+          "unit": null,
+          "description": "Profiles folder under Interconnects: one per built link, Pipeline for everything not yet built.",
+          "source": "derived: builder LINKS table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "register_import_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Total import capacity as registered by NESO.",
+          "source": "InterconnectorRegister mw_import_total",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "register_export_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Total export capacity as registered by NESO.",
+          "source": "InterconnectorRegister mw_export_total",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "effective_from_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Date the registered capacity takes effect (pipeline projects: the planned connection date).",
+          "source": "InterconnectorRegister mw_effective_from",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "elexon_fuel_code",
+          "type": "string",
+          "unit": null,
+          "description": "Elexon fuel type the link's flows are published under (for example INTNED for BritNed).",
+          "source": "derived: builder LINKS table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Interconnects/names.csv (named by hand, not published). Null where not named.",
+          "source": "Interconnects/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Interconnects/names.csv. Null where not named.",
+          "source": "Interconnects/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Interconnects/names.csv. Null where not named.",
+          "source": "Interconnects/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Interconnects/names.csv.",
+          "source": "Interconnects/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "quality_flags",
+          "type": "string",
+          "unit": null,
+          "description": "Semicolon list of issues. Empty when none.",
+          "source": "derived: builder checks",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        }
+      ]
+    },
+    "link_flows": {
+      "kind": "observed",
+      "description": "Flow and NESO transfer-limit statistics for each built link over the 365 days to the last-updated date, one row per link (a link registered in stages has one row). Kept apart from links because they come from time-stamped operational data. profile_id is 'icflow-' plus the link folder slug.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable identifier: 'ic-' plus the slug of the project name (and stage where the register splits a link into stages).",
+          "source": "derived: identity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Datasets the statistics come from (Elexon FUELINST and, where usable, a NESO limit series).",
+          "source": "derived: input files",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "Elexon fuel type the link's flows are published under.",
+          "source": "builder LINKS table",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "link_folder",
+          "type": "string",
+          "unit": null,
+          "description": "Profiles folder under Interconnects (joins to links.link_folder).",
+          "source": "builder LINKS table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "capacity_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Larger of the link's registered import and export capacity (summed over register stages), the base for utilisation_p95.",
+          "source": "derived: links register capacity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "flow_window_start_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Start of the flow statistics window (365 days to the last-updated date).",
+          "source": "derived: last updated minus 365 days",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "flow_readings",
+          "type": "int64",
+          "unit": "1",
+          "description": "Five-minute flow readings in the window.",
+          "source": "Elexon FUELINST",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "flow_mw_min",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Lowest flow. Positive flow is into GB, negative is out of GB.",
+          "source": "Elexon FUELINST generation",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "flow_mw_p05",
+          "type": "float64",
+          "unit": "MW",
+          "description": "5th percentile of flow (into GB positive).",
+          "source": "Elexon FUELINST generation",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "flow_mw_p50",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Median flow (into GB positive).",
+          "source": "Elexon FUELINST generation",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "flow_mw_p95",
+          "type": "float64",
+          "unit": "MW",
+          "description": "95th percentile of flow (into GB positive).",
+          "source": "Elexon FUELINST generation",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "flow_mw_max",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Highest flow (into GB positive).",
+          "source": "Elexon FUELINST generation",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "flow_mw_mean",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Mean flow (into GB positive): the link's net position over the window.",
+          "source": "Elexon FUELINST generation",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "into_gb_share",
+          "type": "float64",
+          "unit": "1",
+          "description": "Fraction of readings with flow into GB.",
+          "source": "derived: flow > 0",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "utilisation_p95",
+          "type": "float64",
+          "unit": "1",
+          "description": "95th percentile of absolute flow over the larger registered capacity.",
+          "source": "derived: flow, register capacity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "limit_source",
+          "type": "string",
+          "unit": null,
+          "description": "NESO limit series used for the limit statistics. Null where none is usable (BritNed and Nemo Link publish limits whose dates cannot be read).",
+          "source": "derived: builder LINKS table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "limit_to_gb_mw_p05",
+          "type": "float64",
+          "unit": "MW",
+          "description": "5th percentile of NESO's transfer limit into GB (the restricted end).",
+          "source": "NESO interconnector limit series, Flow (MW) To GB",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "limit_to_gb_mw_p50",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Median NESO transfer limit into GB.",
+          "source": "NESO interconnector limit series, Flow (MW) To GB",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "limit_from_gb_mw_p05",
+          "type": "float64",
+          "unit": "MW",
+          "description": "5th percentile of NESO's transfer limit out of GB.",
+          "source": "NESO interconnector limit series, Flow (MW) From GB",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "limit_from_gb_mw_p50",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Median NESO transfer limit out of GB.",
+          "source": "NESO interconnector limit series, Flow (MW) From GB",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "limit_restricted_share",
+          "type": "float64",
+          "unit": "1",
+          "description": "Fraction of limit periods with a stated restriction in either direction.",
+          "source": "NESO interconnector limit series, reason columns",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "flow_window_end_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "End of the window: the profiles last-updated date.",
+          "source": "derived: last updated",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Interconnects/names.csv (named by hand, not published). Null where not named.",
+          "source": "Interconnects/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Interconnects/names.csv. Null where not named.",
+          "source": "Interconnects/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Interconnects/names.csv. Null where not named.",
+          "source": "Interconnects/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Interconnects/names.csv.",
+          "source": "Interconnects/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "quality_flags",
+          "type": "string",
+          "unit": null,
+          "description": "Semicolon list of issues (for example flow_exceeds_capacity: an extreme published reading above 110% of registered capacity, kept as published). Empty when none.",
+          "source": "derived: builder checks",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        }
+      ]
+    }
+  }
+}

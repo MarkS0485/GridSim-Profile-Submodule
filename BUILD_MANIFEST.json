@@ -1,0 +1,849 @@
+{
+  "profiles_last_updated": "2026-09-28",
+  "families": {
+    "Cables": {
+      "inputs": [
+        "Derived/cable_lake/cable_lake.parquet"
+      ],
+      "files": [
+        {
+          "path": "Cables/11kv/circuits.parquet",
+          "rows": 877,
+          "sha256": "7bebc486eba907a858ac0b95decaff62e32bf8ec74283bba75f56610461e5cab",
+          "spec": "Cables/circuits",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/11kv/types.parquet",
+          "rows": 1,
+          "sha256": "02c775a9e20ec494e2a546f356b1ba7242a23f668075206722e03f42c7b3b757",
+          "spec": "Cables/types",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/11kv/spans.parquet",
+          "rows": 1,
+          "sha256": "b78f07c67c0d8f253ec2ca873656433ea35a249868ce50629d934b28a9813f42",
+          "spec": "Cables/spans",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/132kv/circuits.parquet",
+          "rows": 3020,
+          "sha256": "a79095e56278721020b7c38e203dc9c3a4d93ff9dc4cfa8c831ceadebf2825a0",
+          "spec": "Cables/circuits",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/132kv/types.parquet",
+          "rows": 7,
+          "sha256": "845d24788b870010658164f1b76b40c57f02d236e0c85cd255b001bc5ba6aabc",
+          "spec": "Cables/types",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/132kv/spans.parquet",
+          "rows": 9,
+          "sha256": "ab89311f765125254285f9029fa410b4fdd176013c24c57e4642a266e70ef990",
+          "spec": "Cables/spans",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/275kv/circuits.parquet",
+          "rows": 103,
+          "sha256": "ebf75dc535aed32ca3d1b3005f49c6d6689835b083a4700852aaca76f87bb7ef",
+          "spec": "Cables/circuits",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/33kv/circuits.parquet",
+          "rows": 11561,
+          "sha256": "719e035eeff20ff6bb82801d78da4ad37155a76bec23ae54a32fff2bd2c13bda",
+          "spec": "Cables/circuits",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/33kv/types.parquet",
+          "rows": 8,
+          "sha256": "9cc5a2cdb042b94870bb99e150b2c772066a9d1dc6bfed775bec8b7ca1c92b6d",
+          "spec": "Cables/types",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/33kv/spans.parquet",
+          "rows": 16,
+          "sha256": "9699620401bd261e4471c7ce7d6aac424c37a495dc60300aa07b21c48918f086",
+          "spec": "Cables/spans",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/400kv/circuits.parquet",
+          "rows": 41,
+          "sha256": "d7f9db85dfde94df01bddcd7fcf7cd0417e742862646416eef69c123d78b07e2",
+          "spec": "Cables/circuits",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/6.6kv/circuits.parquet",
+          "rows": 27,
+          "sha256": "830476748778bb2455ad902de3f1467dfe2fe151886be240f0de77a47a7a8590",
+          "spec": "Cables/circuits",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/6.6kv/types.parquet",
+          "rows": 1,
+          "sha256": "1d80345c3dcbc7eb059074af6ad7fe3c7cacce3cae9af233251c90677ec99d08",
+          "spec": "Cables/types",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/6.6kv/spans.parquet",
+          "rows": 1,
+          "sha256": "9710f98ac7dad24b3de69a25217ee3a5c9acddd5fae328fa5b74e59147191b28",
+          "spec": "Cables/spans",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/66kv/circuits.parquet",
+          "rows": 808,
+          "sha256": "389534d166cc7a7ca03f0dbf78796cfcef226f00502f1a1e773ecebb8bf0a275",
+          "spec": "Cables/circuits",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/66kv/types.parquet",
+          "rows": 12,
+          "sha256": "5f8562d394f1c858d9a8afa2238079e56450cfc85483fdf80d769cabcdfec56f",
+          "spec": "Cables/types",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        },
+        {
+          "path": "Cables/66kv/spans.parquet",
+          "rows": 13,
+          "sha256": "109ad9079320769a9e9a453631c1139a8c889322ef5abb723efe6f372b3f1372",
+          "spec": "Cables/spans",
+          "spec_sha256": "170de51aa60e704b2f0e083699db5c6c4c152a2461b30273aa2d5fde628e343e"
+        }
+      ],
+      "notes": {
+        "profiles_named": 0,
+        "circuits_skipped_no_voltage_folder": {
+          "22.0": 56,
+          "25.0": 16
+        },
+        "circuits_with_quality_flags": 1974,
+        "spans_skipped_no_voltage": 21291,
+        "spans_skipped_no_voltage_folder": 25
+      }
+    },
+    "Transformers": {
+      "inputs": [
+        "UkPowerNetworks/Parquet/Long_Term_Development_Statement_LTDS_Table_2a_Transformer_Data_2W/ukpn-ltds-table-2a-transformer-2w.parquet",
+        "UkPowerNetworks/Parquet/Long_Term_Development_Statement_LTDS_Table_2b_Transformer_Data_3W/ukpn-ltds-table-2b-transformer-data-3w.parquet",
+        "NorthernPowerGrid/Parquet/LTDS_Appendix_4_Transformer_Data/ltds-appendix-4.parquet",
+        "NationalGrid/RAWData/LTDS Tabular Model/ltds-table-2a-two-winding-transformer.csv",
+        "NationalGrid/RAWData/LTDS Tabular Model/ltds-table-2b-three-winding-transformer.csv",
+        "Derived/tap_changers",
+        "Derived/bsp_power_factor",
+        "Derived/asset_stress_ledger"
+      ],
+      "files": [
+        {
+          "path": "Transformers/11kv/units.parquet",
+          "rows": 2,
+          "sha256": "736d8864feb127d78591ba7d57c9b7ecb20814c30361964c65630021646a205f",
+          "spec": "Transformers/units",
+          "spec_sha256": "deee62db6e6d647b184c5ec8a02d480a28aa6fb7fab4f623feaefc141fd3531d"
+        },
+        {
+          "path": "Transformers/33kv/units.parquet",
+          "rows": 3981,
+          "sha256": "02685d3019caf69b2621f52e03488bafc16a7ee8e435bb0fde4ba1551daa2ff4",
+          "spec": "Transformers/units",
+          "spec_sha256": "deee62db6e6d647b184c5ec8a02d480a28aa6fb7fab4f623feaefc141fd3531d"
+        },
+        {
+          "path": "Transformers/66kv/units.parquet",
+          "rows": 496,
+          "sha256": "bb90e569ab2daf8a19f467d3d49e2fc97df572569433fcd3b195469d2548853a",
+          "spec": "Transformers/units",
+          "spec_sha256": "deee62db6e6d647b184c5ec8a02d480a28aa6fb7fab4f623feaefc141fd3531d"
+        },
+        {
+          "path": "Transformers/132kv/units.parquet",
+          "rows": 1516,
+          "sha256": "179133ad605755a034121786956cd16a1d76360434bd0ec3e2091017b317ae50",
+          "spec": "Transformers/units",
+          "spec_sha256": "deee62db6e6d647b184c5ec8a02d480a28aa6fb7fab4f623feaefc141fd3531d"
+        },
+        {
+          "path": "Transformers/observed/taps.parquet",
+          "rows": 158,
+          "sha256": "f137fa9e8733913eb3d6f442ef2634e6346efe75c38fe465a6482e91538623c4",
+          "spec": "Transformers/taps",
+          "spec_sha256": "deee62db6e6d647b184c5ec8a02d480a28aa6fb7fab4f623feaefc141fd3531d"
+        },
+        {
+          "path": "Transformers/observed/flows.parquet",
+          "rows": 827,
+          "sha256": "1cc239c14cf09d4909e218521f7e344a27ba06bec3edf8c7bf416dd3c81b8c6f",
+          "spec": "Transformers/flows",
+          "spec_sha256": "deee62db6e6d647b184c5ec8a02d480a28aa6fb7fab4f623feaefc141fd3531d"
+        },
+        {
+          "path": "Transformers/observed/stress.parquet",
+          "rows": 162,
+          "sha256": "4ebedc27161e249db1732e14a54b58208ae0221d745aac151c61685d1b2a659e",
+          "spec": "Transformers/stress",
+          "spec_sha256": "deee62db6e6d647b184c5ec8a02d480a28aa6fb7fab4f623feaefc141fd3531d"
+        }
+      ],
+      "notes": {
+        "profiles_named": 0,
+        "units_by_operator": {
+          "nged": 2774,
+          "npg": 939,
+          "ukpn": 2282
+        },
+        "units_dropped": {
+          "no_winding_voltage": 0,
+          "hv_voltage_has_no_folder": {
+            "20.0": 4,
+            "22.0": 28
+          }
+        },
+        "units_with_quality_flags": 5056,
+        "taps_after_last_updated_excluded": 0,
+        "stress_after_last_updated_excluded": 0,
+        "not_in_lake": "SPD and SPM (SP Energy Networks) transformer tables"
+      }
+    },
+    "Generator": {
+      "inputs": [
+        "Elexon/Reference/bmunits_all.json",
+        "Elexon/Parquet/rure",
+        "Elexon/Parquet/rdre",
+        "Elexon/Parquet/ruri",
+        "Elexon/Parquet/rdri",
+        "Elexon/Parquet/sel",
+        "Elexon/Parquet/sil",
+        "Elexon/Parquet/mels",
+        "Elexon/Parquet/ndz",
+        "Elexon/Parquet/mzt",
+        "Elexon/Parquet/mnzt",
+        "Elexon/Parquet/b1610",
+        "DUKES/Parquet/stations/edition_year=2026/stations_2026.parquet",
+        "REPD/Parquet/snapshot/snapshot_date=2026-08-03/repd_2026-08-03.parquet",
+        "Derived/asset_geography",
+        "GDA Scripts/build_inertia_reconstructed.py (H_BY_FUEL)"
+      ],
+      "files": [
+        {
+          "path": "Generator/Coal/bm_units.parquet",
+          "rows": 10,
+          "sha256": "2a89b91c58eedbfbe222d247bc2b67f72f5bc812f6282795f360804e6917c20c",
+          "spec": "Generator/bm_units",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Coal/bm_dynamics.parquet",
+          "rows": 10,
+          "sha256": "cda94429fbfb3ece3e19c4672e9a8d2b2ea3d2b1be2e8c35d8a167d8daece5ae",
+          "spec": "Generator/bm_dynamics",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Gas/bm_units.parquet",
+          "rows": 89,
+          "sha256": "e2f87d8baf5df6b5b7625c568c221b9d209a918b5ff7039f4d520a3678915fa0",
+          "spec": "Generator/bm_units",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Gas/bm_dynamics.parquet",
+          "rows": 89,
+          "sha256": "f0189e313ddb87ad399783b3442b20a8bae3a23fd69c04bbfd9c79b46ba6f087",
+          "spec": "Generator/bm_dynamics",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Gas/stations.parquet",
+          "rows": 47,
+          "sha256": "645e7acc3d82cf52fa52b239005381fbef03bcf14fea7512ddf222f02b120d41",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Hydro/bm_units.parquet",
+          "rows": 36,
+          "sha256": "23401db45a7d72903604614cf3b3eac9066d06c9c9309b9b3afda5593a05af2a",
+          "spec": "Generator/bm_units",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Hydro/bm_dynamics.parquet",
+          "rows": 36,
+          "sha256": "72623a0da0dfbda69234ea1cfc0d88ac6fd548cb37b1e90d32ff38d52b075677",
+          "spec": "Generator/bm_dynamics",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Hydro/stations.parquet",
+          "rows": 263,
+          "sha256": "bded2835cb52fcdf974a301a20c82f426d5673cae9f456c8077829c89a77a80e",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Marine/stations.parquet",
+          "rows": 20,
+          "sha256": "f80a95c71bcbc4e250fd46417b3c2c70810649481319a509abb5e4f3ae436a0b",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Nuclear/bm_units.parquet",
+          "rows": 16,
+          "sha256": "65078c596ba452fa37cd9a324ce3af940ff07a1545d2fe0795718ca58c5f4cfa",
+          "spec": "Generator/bm_units",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Nuclear/bm_dynamics.parquet",
+          "rows": 16,
+          "sha256": "a55174f98b6f4c95c07e94b484ab1349bcf747d041f7d1a8f62fc8213359f791",
+          "spec": "Generator/bm_dynamics",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Nuclear/stations.parquet",
+          "rows": 5,
+          "sha256": "8a014bb5cb17dce7f650f6bf95fae93ca93c4ec0d30a7b7f295a16ff7f85a139",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Other/bm_units.parquet",
+          "rows": 90,
+          "sha256": "7ff10e8675ad930ca7ab1e4f1ad0225ddd067b419cd3e28e1585d1ba64d1e3d6",
+          "spec": "Generator/bm_units",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Other/bm_dynamics.parquet",
+          "rows": 90,
+          "sha256": "b821dc0d5e40016c30514ac9b9e88de66873276ecb614f83c4c123730a84986b",
+          "spec": "Generator/bm_dynamics",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Other/stations.parquet",
+          "rows": 66,
+          "sha256": "179adebeb88106a4bfb9f42a6b84898df99f81fad485309a237943b91242f18b",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/OtherThermal/BIO/bm_units.parquet",
+          "rows": 18,
+          "sha256": "fd0327255676bdbed942d8dacbb385d464818b6f8265ca99671966b0d79e30e8",
+          "spec": "Generator/bm_units",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/OtherThermal/BIO/bm_dynamics.parquet",
+          "rows": 18,
+          "sha256": "c090939cb84403f3364eb55961fd59bf39ab7c3988f6c2864b9d7ef535baee72",
+          "spec": "Generator/bm_dynamics",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/OtherThermal/BIO/stations.parquet",
+          "rows": 577,
+          "sha256": "25a1a45fd7c4af02e31b0dc863b97cbcbcd419685f0278d3e3ec052d76375cb2",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/OtherThermal/CHP/stations.parquet",
+          "rows": 228,
+          "sha256": "8b967efb62ef72b0c29c8807483ef63bc413d02a7acac904c31ce7f4f814c899",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/OtherThermal/Oil/stations.parquet",
+          "rows": 17,
+          "sha256": "128c1b72811d2bedbb93255a1b9386912d934394d6b70fcf752f14a16ce4b819",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/OtherThermal/Waste/stations.parquet",
+          "rows": 87,
+          "sha256": "3974fc10ac97eca9a18eaa31d5e32bd0099319f88914b976c4adbda568ccec14",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/PumpedStorage/bm_units.parquet",
+          "rows": 16,
+          "sha256": "2129e21d0b863072c6cb6440d374203f99472289595a85cf5cd66b11cd5736ce",
+          "spec": "Generator/bm_units",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/PumpedStorage/bm_dynamics.parquet",
+          "rows": 16,
+          "sha256": "0d9f55a5d4777b70966946b92264bf8bb3fc9897f540dcb559bca8b2d97182f1",
+          "spec": "Generator/bm_dynamics",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/PumpedStorage/stations.parquet",
+          "rows": 21,
+          "sha256": "bbf5a63b881af53eaf1b2f64b51c48300f76ceaadcd4767fa6a918cf003aaf41",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Solar/stations.parquet",
+          "rows": 6918,
+          "sha256": "4a5000bb9bb227ef6b1b0342b73377188e4da2f47c2b05601adfabe82ab66fc7",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Storage/stations.parquet",
+          "rows": 2122,
+          "sha256": "e581b614c9bbc29264e67d4ace2e3334a13c2c761690635b8a5ee6d09674382d",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Unclassified/bm_units.parquet",
+          "rows": 1190,
+          "sha256": "ee1ab99dbca758c59905d8204ce9d180aefd85cb8baf397c5cd6ad90d39565eb",
+          "spec": "Generator/bm_units",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Unclassified/bm_dynamics.parquet",
+          "rows": 1190,
+          "sha256": "756c00e472325ffda614fd2a7a111e349dece40824d2c3d6267aa09bf05d9cb0",
+          "spec": "Generator/bm_dynamics",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Unclassified/stations.parquet",
+          "rows": 2,
+          "sha256": "37f3744856091698b752ffba2082dea6a5fab1782238a966317ca6d4e31099a8",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Wind/bm_units.parquet",
+          "rows": 277,
+          "sha256": "c0cfe2915278ccfea1b026bdb05362aa2546851255eb08bb69cdd2418751fd77",
+          "spec": "Generator/bm_units",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Wind/bm_dynamics.parquet",
+          "rows": 277,
+          "sha256": "6d91c0a43ad348198b08377f85b121451fb6ad6433a52adce8fbec635989e712",
+          "spec": "Generator/bm_dynamics",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        },
+        {
+          "path": "Generator/Wind/stations.parquet",
+          "rows": 2086,
+          "sha256": "5e4c66c446644a4aae944e9cada6c6bb9d6c0a4798f23d5034cb19f6f205d576",
+          "spec": "Generator/stations",
+          "spec_sha256": "bb996a75e766e8cf44767a526e04d154d6466a086b3b32e94adb6f9e45de5163"
+        }
+      ],
+      "notes": {
+        "profiles_named": 0,
+        "repeat_records_dropped": 1,
+        "interconnector_units_left_for_interconnects": 13,
+        "units_without_fuel_or_generation_capacity": 1269,
+        "repd_rows_left_out_by_status": {
+          "Application Refused": 941,
+          "Revised": 826,
+          "Application Withdrawn": 671,
+          "Abandoned": 391,
+          "Planning Permission Expired": 334,
+          "Appeal Refused": 316,
+          "Appeal Withdrawn": 49,
+          "Decommissioned": 32
+        },
+        "repd_rows_left_out_not_generation": 2,
+        "stations_by_source": {
+          "dukes": 1364,
+          "repd": 11095
+        },
+        "bm_units_by_folder": {
+          "Coal": 10,
+          "Gas": 89,
+          "Hydro": 36,
+          "Nuclear": 16,
+          "Other": 90,
+          "OtherThermal/BIO": 18,
+          "PumpedStorage": 16,
+          "Unclassified": 1190,
+          "Wind": 277
+        },
+        "bm_units_with_metered_output": 1597,
+        "bm_units_with_ramp_rates": 218
+      }
+    },
+    "Demands": {
+      "inputs": [
+        "Derived/demand_consumers/demand_consumers.parquet",
+        "UkPowerNetworks/Parquet/Long_Term_Development_Statement_LTDS_Table_3a_Observed_Peak_Demand",
+        "NationalGrid/RAWData/LTDS Tabular Model/table-3-2025.csv",
+        "NorthernPowerGrid/Parquet/LTDS_Appendix_5_Load_Information",
+        "UkPowerNetworks/Parquet/data_centre_demand_profiles"
+      ],
+      "files": [
+        {
+          "path": "Demands/Hospitals/sites.parquet",
+          "rows": 68,
+          "sha256": "0e7deae721fcda3f63b4b5d9492bf642b0798d810520a3699b059883a267b2a4",
+          "spec": "Demands/sites",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/Schools/sites.parquet",
+          "rows": 158,
+          "sha256": "413ab54fd05b2688f9fc1113df3a48192bde2ab5f9e4bb9aa2fd0ea15e4a226f",
+          "spec": "Demands/sites",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/Universities/sites.parquet",
+          "rows": 27,
+          "sha256": "53f252ceb77d11a352a321fe5bef6d59c8249189dee5028303364ce51b8d2557",
+          "spec": "Demands/sites",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/Colleges/sites.parquet",
+          "rows": 37,
+          "sha256": "2f13b2a7ffc82b0719ad335c5239c85696281cc91c50cf42763f6a35c0ab0167",
+          "spec": "Demands/sites",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/Datacentres/SME/sites.parquet",
+          "rows": 1,
+          "sha256": "a1ae5381824c8068d0d3c135d4e6bbec761c8affdfd6491af62f7b308f7bba51",
+          "spec": "Demands/sites",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/Datacentres/Other/sites.parquet",
+          "rows": 2,
+          "sha256": "eab5ef2d6a7cba7bd777c212f8dd0df5d96940491227e6f47b8f37dff1966217",
+          "spec": "Demands/sites",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/Datacentres/ByLocalAuthority/sites.parquet",
+          "rows": 26,
+          "sha256": "0dbd4071cbd9857b4d0492e29b2554edece7d8579c3940e2e2bf954c79ed94f7",
+          "spec": "Demands/sites",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/Port/sites.parquet",
+          "rows": 13,
+          "sha256": "98839b1c79e2c13ebf02e35d01f427ab9efe46306213f18c0e0efa598b1a8781",
+          "spec": "Demands/sites",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/Military/Land/sites.parquet",
+          "rows": 4,
+          "sha256": "366bd2cf7eac4fcc46975b726b2d1c928105069493ac4242b3e4a012442afa33",
+          "spec": "Demands/sites",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/Military/Naval/sites.parquet",
+          "rows": 1,
+          "sha256": "39c1ae4bc8004b3957f2e06ace13cd578ce5702d6a163b023e4d08c5f6ab8914",
+          "spec": "Demands/sites",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/LoadCentres/6.6kv/load_centres.parquet",
+          "rows": 115,
+          "sha256": "1a8a44e3c87b681950448e86e9122a30113a8610982f5ee4046b79fab6af9cfd",
+          "spec": "Demands/load_centres",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/LoadCentres/11kv/load_centres.parquet",
+          "rows": 3683,
+          "sha256": "14b91e2a8e96d94982439362448229467470beecb58e9269388f00301cfd0919",
+          "spec": "Demands/load_centres",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/LoadCentres/33kv/load_centres.parquet",
+          "rows": 962,
+          "sha256": "465cab80c830c20f10a8913aaeb40c4cee610c5c718fa52c75bec1cf2fea39ae",
+          "spec": "Demands/load_centres",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/LoadCentres/66kv/load_centres.parquet",
+          "rows": 59,
+          "sha256": "88193ff290ab13f11fe6b4d3f7c1550c79970c0ba919755b357b360e261fd5b9",
+          "spec": "Demands/load_centres",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/LoadCentres/132kv/load_centres.parquet",
+          "rows": 33,
+          "sha256": "ff76511f4a3d4d0bb05e04edf74c865a8e768a09cb7add388c83356f0fae0015",
+          "spec": "Demands/load_centres",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        },
+        {
+          "path": "Demands/Datacentres/Profiles/datacentre_profiles.parquet",
+          "rows": 96,
+          "sha256": "542691e9b6dac149f4c07ea02c8faa369988b83797d992961468ce7a06fc5041",
+          "spec": "Demands/datacentre_profiles",
+          "spec_sha256": "4c12a94a1f32f6a0c8a6500680605f21780f2e041c8aba4cf44799632cff3cc2"
+        }
+      ],
+      "notes": {
+        "matched_without_import_capacity": {
+          "Colleges": 35,
+          "Datacentres": 26,
+          "Hospitals": 132,
+          "Military/Land": 12,
+          "Port": 17,
+          "Schools": 167,
+          "Universities": 33
+        },
+        "sites_by_type": {
+          "Colleges": 37,
+          "Datacentres/ByLocalAuthority": 26,
+          "Datacentres/Other": 2,
+          "Datacentres/SME": 1,
+          "Hospitals": 68,
+          "Military/Land": 4,
+          "Military/Naval": 1,
+          "Port": 13,
+          "Schools": 158,
+          "Universities": 27
+        },
+        "rows_without_voltage": 4,
+        "rows_voltage_has_no_folder": {
+          "5.75": 2,
+          "6.0": 2,
+          "20.0": 33,
+          "22.0": 6,
+          "25.0": 16
+        },
+        "load_centres_by_operator": {
+          "nged": 2278,
+          "npg": 626,
+          "ukpn": 1948
+        },
+        "datacentre_profiles": 96,
+        "profiles_named": 1
+      }
+    },
+    "Interconnects": {
+      "inputs": [
+        "InterconnectorRegister/Parquet/snapshot/snapshot_date=2026-09-25/interconnector_2026-09-25.parquet",
+        "Elexon/Parquet/fuelinst",
+        "NESO/Parquet/viking_link_neso_s_net_transfer_capacity",
+        "NESO/Parquet/ifa_neso_s_intraday_transfer_limit",
+        "NESO/Parquet/ifa2_neso_s_intraday_transfer_limit",
+        "NESO/Parquet/eleclink_neso_s_net_transfer_capacity"
+      ],
+      "files": [
+        {
+          "path": "Interconnects/Britned/links.parquet",
+          "rows": 1,
+          "sha256": "50d7c1814624712351c849df9eb17a6a8958aab585fe9dae2c2efe184610e860",
+          "spec": "Interconnects/links",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/Britned/link_flows.parquet",
+          "rows": 1,
+          "sha256": "67f1ed042864a84a548a56054a201866ec9b9893c63655b225a2a9fa02118092",
+          "spec": "Interconnects/link_flows",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/EastWest/links.parquet",
+          "rows": 1,
+          "sha256": "1ac0029decde7c56dd5d05f436f772fe40b8518ff2530799f025d9b25fc0aed5",
+          "spec": "Interconnects/links",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/EastWest/link_flows.parquet",
+          "rows": 1,
+          "sha256": "df0062eb8dd1b935e43abe7b221f6e725db018e0d78055358b2b81b1673cfefd",
+          "spec": "Interconnects/link_flows",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/ElecLink/links.parquet",
+          "rows": 1,
+          "sha256": "35ee0e1332568842755038130293685b948d37da202cfdac3067346d4f847e0b",
+          "spec": "Interconnects/links",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/ElecLink/link_flows.parquet",
+          "rows": 1,
+          "sha256": "bb8db90472d16d9f0237f174046f326e2d4bb85498b4592b414b902d03ca80da",
+          "spec": "Interconnects/link_flows",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/Greenlink/links.parquet",
+          "rows": 1,
+          "sha256": "c0fb6646c49a3c5ee9ec6522f9221c439a44595a370a78f2a00f5cc755a23265",
+          "spec": "Interconnects/links",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/Greenlink/link_flows.parquet",
+          "rows": 1,
+          "sha256": "a8be3b2d51d2a750a7e749ab33675c7637b9e54cf2d40bdecbdf4e9293dabd80",
+          "spec": "Interconnects/link_flows",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/IFA/links.parquet",
+          "rows": 1,
+          "sha256": "92bee8647a90382ce17e3ca2821e0bce908ddacc4efdb50e1612611c22641746",
+          "spec": "Interconnects/links",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/IFA/link_flows.parquet",
+          "rows": 1,
+          "sha256": "2b4fc94ae42fd777eb9aba60490d2c055f972a483dceea3cd201ca37bee32594",
+          "spec": "Interconnects/link_flows",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/IFA2/links.parquet",
+          "rows": 1,
+          "sha256": "fbb50416c3da3027549637bbb97460459c5e46a87035687d6efd50fb10115500",
+          "spec": "Interconnects/links",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/IFA2/link_flows.parquet",
+          "rows": 1,
+          "sha256": "1170efc290fe22ef3f419236cf61537eb48e0768b6aa856155b958cbfe5e2161",
+          "spec": "Interconnects/link_flows",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/IsleOfMan/links.parquet",
+          "rows": 1,
+          "sha256": "6465898bce50c52822988505b76c5aff93a1556e19341c3353959663ec01c336",
+          "spec": "Interconnects/links",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/Moyle/links.parquet",
+          "rows": 2,
+          "sha256": "760fc18305c45611e7e4d3c38464f69cfb7f3b3bab69965e02ab89703a536653",
+          "spec": "Interconnects/links",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/Moyle/link_flows.parquet",
+          "rows": 1,
+          "sha256": "ea946db3712f71af75e8897d4bcbedef333da21e7c1256f1235632c17997260c",
+          "spec": "Interconnects/link_flows",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/NSL/links.parquet",
+          "rows": 1,
+          "sha256": "31ada1b3c9764118ddb42e194b9710dca7774cef2c12cbd038c8e5f29b8554ca",
+          "spec": "Interconnects/links",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/NSL/link_flows.parquet",
+          "rows": 1,
+          "sha256": "f168a5ee099d2dd7666fef7beb746674d5f0cc97387f6d847a6b9284a70cb283",
+          "spec": "Interconnects/link_flows",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/Nemo/links.parquet",
+          "rows": 1,
+          "sha256": "cf6812dabeb639e2b5c8ca294579ea458a6b7db53193c531025a62694f86374a",
+          "spec": "Interconnects/links",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/Nemo/link_flows.parquet",
+          "rows": 1,
+          "sha256": "512b460407dff7f62f95b9c9828eecec7788fd1971afaf27cc5114fb6ebb2e32",
+          "spec": "Interconnects/link_flows",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/Pipeline/links.parquet",
+          "rows": 23,
+          "sha256": "e94eca64696e8410e128a9bfe13579b389e5ad74a2b0f0b650262a2d7fd5ad0c",
+          "spec": "Interconnects/links",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/Viking/links.parquet",
+          "rows": 1,
+          "sha256": "cd0b2559138fb2a049f9410d04414b258b7a1842c4a3e30cf6d38f6cc718ebfe",
+          "spec": "Interconnects/links",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        },
+        {
+          "path": "Interconnects/Viking/link_flows.parquet",
+          "rows": 1,
+          "sha256": "d73286b47fb28d6eafab2857da3bff5b3fbfc3f411e6293ced7619e7f84755a3",
+          "spec": "Interconnects/link_flows",
+          "spec_sha256": "3e1a84a9602b2fc6c606c89873116ddca4e4c4047265f5296d1ce1315a19834b"
+        }
+      ],
+      "notes": {
+        "profiles_named": 0,
+        "links_by_status": {
+          "Awaiting Consents": 3,
+          "Built": 12,
+          "Scoping": 19,
+          "Under Construction/Commissioning": 1
+        },
+        "limit_rows_used": {
+          "viking_link_neso_s_net_transfer_capacity": 8373,
+          "ifa_neso_s_intraday_transfer_limit": 5327,
+          "ifa2_neso_s_intraday_transfer_limit": 3648,
+          "eleclink_neso_s_net_transfer_capacity": 8325
+        },
+        "built_links_without_flow_data": [
+          "IsleOfMan"
+        ],
+        "no_limit_statistics": "BritNed and Nemo Link (NESO limit dates cannot be read)"
+      }
+    }
+  }
+}

@@ -1,0 +1,1485 @@
+{
+  "family": "Transformers",
+  "tables": {
+    "units": {
+      "kind": "reference",
+      "description": "One row per published transformer (LTDS Table 2: two- and three-winding), filed under the HV winding's voltage class. Impedance is harmonised to percent on 100 MVA and on the unit's own rating; values exactly as reported are kept alongside. profile_id is 'txf-' plus 16 hex of SHA-256 of source_key. SP Energy Networks (SPD, SPM) transformer tables are not held in the lake copy these profiles were built from.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable profile identifier (see the table description for its form).",
+          "source": "derived: identity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Lake dataset the row was built from.",
+          "source": "derived: input file",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "The row's key in its source (an operator ID, or the source row number where the operator publishes no ID).",
+          "source": "source row identity",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": true
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "operator",
+          "type": "string",
+          "unit": null,
+          "description": "Network operator group (ukpn, npg, nged).",
+          "source": "derived: source file",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "licence",
+          "type": "string",
+          "unit": null,
+          "description": "Licence area (EPN, LPN, SPN, NPGN, NPGY, EMID, WMID, SWEST, SWALES).",
+          "source": "LTDS licence column",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "gsp_group",
+          "type": "string",
+          "unit": null,
+          "description": "Grid supply point or substation group as published.",
+          "source": "LTDS GSP / group column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "winding_count",
+          "type": "int64",
+          "unit": "1",
+          "description": "2 for a two-winding transformer (LTDS Table 2a), 3 for three-winding (Table 2b).",
+          "source": "derived: source table",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "hv_node",
+          "type": "string",
+          "unit": null,
+          "description": "HV winding connection node as published.",
+          "source": "LTDS node column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "hv_substation",
+          "type": "string",
+          "unit": null,
+          "description": "HV substation name where published (UKPN only).",
+          "source": "LTDS substation column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "hv_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "HV winding voltage.",
+          "source": "LTDS HV voltage column",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "lv_node",
+          "type": "string",
+          "unit": null,
+          "description": "LV winding connection node as published.",
+          "source": "LTDS node column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "lv_substation",
+          "type": "string",
+          "unit": null,
+          "description": "LV substation name where published (UKPN only).",
+          "source": "LTDS substation column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "lv_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "LV winding voltage.",
+          "source": "LTDS LV voltage column",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "tertiary_node",
+          "type": "string",
+          "unit": null,
+          "description": "Third winding node (three-winding units only).",
+          "source": "LTDS Table 2b",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "tertiary_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "Third winding voltage (three-winding units only).",
+          "source": "LTDS Table 2b",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "voltage_class",
+          "type": "string",
+          "unit": null,
+          "description": "Profiles folder, taken from the HV winding voltage.",
+          "source": "derived: hv_kv mapped to GB voltage classes",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "unit": null,
+          "description": "energised, out, planned or unknown. Null where the operator publishes no status (UKPN, NPG).",
+          "source": "LTDS status column (NGED only)",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "vector_group",
+          "type": "string",
+          "unit": null,
+          "description": "Winding vector group as published (three-winding: HV/LV1/LV2).",
+          "source": "LTDS vector group",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rating_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "Nominal or continuous rating (UKPN: winter rating; NPG: transformer rating; NGED: nominal rating).",
+          "source": "LTDS rating column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rating_summer_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "Summer rating (UKPN only).",
+          "source": "LTDS summer rating",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rating_emergency_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "Emergency rating (NGED only).",
+          "source": "LTDS emergency rating",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rate_a_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "GridSim Rate A (normal, continuous): the published continuous rating (UKPN winter, NPG and NGED season not stated).",
+          "source": "LTDS rating column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rate_a_basis",
+          "type": "string",
+          "unit": null,
+          "description": "What Rate A is: the season or condition the published rating applies to.",
+          "source": "derived: source table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rate_b_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "[VERIFY] GridSim Rate B (short-term). Not published for these assets, so null; GridSim applies its own documented default.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rate_b_basis",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] What Rate B is (null while Rate B is not published).",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rate_c_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "GridSim Rate C (emergency): NGED's published emergency rating; null for UKPN and NPG, who publish none.",
+          "source": "NGED LTDS Emergency Rating",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rate_c_basis",
+          "type": "string",
+          "unit": null,
+          "description": "What Rate C is: the condition or duration of the published emergency rating.",
+          "source": "derived: source table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "r_pct_100mva",
+          "type": "float64",
+          "unit": "%",
+          "description": "Positive-sequence resistance in percent on a 100 MVA base (three-winding: HV-LV1 pair).",
+          "source": "derived: reported R on reported_impedance_base",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x_pct_100mva",
+          "type": "float64",
+          "unit": "%",
+          "description": "Positive-sequence reactance in percent on a 100 MVA base (three-winding: HV-LV1 pair).",
+          "source": "derived: reported X on reported_impedance_base",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x0_pct_100mva",
+          "type": "float64",
+          "unit": "%",
+          "description": "Zero-sequence reactance in percent on a 100 MVA base (three-winding: HV-LV1 pair).",
+          "source": "derived: reported X0 on reported_impedance_base",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x_lv_tert_pct_100mva",
+          "type": "float64",
+          "unit": "%",
+          "description": "Three-winding only: LV1 to LV2 (tertiary) reactance in percent on 100 MVA.",
+          "source": "derived: LTDS Table 2b",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x_hv_tert_pct_100mva",
+          "type": "float64",
+          "unit": "%",
+          "description": "Three-winding only: HV to LV2 (tertiary) reactance in percent on 100 MVA.",
+          "source": "derived: LTDS Table 2b",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "r_pct_on_rating",
+          "type": "float64",
+          "unit": "%",
+          "description": "Resistance in percent on the transformer's own rating: r_pct_100mva x rating_mva / 100.",
+          "source": "derived: r_pct_100mva, rating_mva",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x_pct_on_rating",
+          "type": "float64",
+          "unit": "%",
+          "description": "Reactance (impedance voltage) in percent on the transformer's own rating: x_pct_100mva x rating_mva / 100.",
+          "source": "derived: x_pct_100mva, rating_mva",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x_over_r",
+          "type": "float64",
+          "unit": "1",
+          "description": "X/R ratio, set only when R is above zero.",
+          "source": "derived: x / r",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "tap_min_pct",
+          "type": "float64",
+          "unit": "%",
+          "description": "Lowest tap position as a percent change from nominal ratio (UKPN values converted: published value minus 100).",
+          "source": "derived: reported_tap_min",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "tap_max_pct",
+          "type": "float64",
+          "unit": "%",
+          "description": "Highest tap position as a percent change from nominal ratio (UKPN values converted: published value minus 100).",
+          "source": "derived: reported_tap_max",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "tap_range_pct",
+          "type": "float64",
+          "unit": "%",
+          "description": "Total tap range: tap_max_pct minus tap_min_pct.",
+          "source": "derived: tap_max_pct - tap_min_pct",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "reported_tap_min",
+          "type": "float64",
+          "unit": null,
+          "description": "Lowest tap exactly as published, in reported_tap_convention.",
+          "source": "LTDS minimum tap",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "reported_tap_convention"
+        },
+        {
+          "name": "reported_tap_max",
+          "type": "float64",
+          "unit": null,
+          "description": "Highest tap exactly as published, in reported_tap_convention.",
+          "source": "LTDS maximum tap",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "reported_tap_convention"
+        },
+        {
+          "name": "reported_tap_convention",
+          "type": "string",
+          "unit": null,
+          "description": "How the operator published tap limits: percent_change (NPG, NGED: for example -12 and +6) or percent_of_nominal_ratio (UKPN: for example 81 and 104).",
+          "source": "derived: source table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "reverse_power_reported",
+          "type": "float64",
+          "unit": null,
+          "description": "Reverse power capability exactly as reported, in reverse_power_unit.",
+          "source": "LTDS reverse power column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "reverse_power_unit"
+        },
+        {
+          "name": "reverse_power_unit",
+          "type": "string",
+          "unit": null,
+          "description": "Unit of reverse_power_reported: % (UKPN, percent of rating), MVA (NPG), or unknown (NGED).",
+          "source": "derived: source table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "earthing_hv",
+          "type": "string",
+          "unit": null,
+          "description": "Method of earthing as published: the HV winding for UKPN; the single published value for NPG and NGED.",
+          "source": "LTDS earthing column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "earthing_lv",
+          "type": "string",
+          "unit": null,
+          "description": "LV method of earthing as published (UKPN only).",
+          "source": "LTDS earthing column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "reported_impedance_base",
+          "type": "string",
+          "unit": null,
+          "description": "Base the operator published impedance on: percent_on_100mva (NPG, documented) or percent_on_100mva_inferred (UKPN and NGED: GDA's normalisers label these percent on own rating and ohmic, but the magnitudes and their fall with rating fit percent on 100 MVA only; see quality_flags and the builder notes).",
+          "source": "derived: source table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "reported_r1",
+          "type": "float64",
+          "unit": null,
+          "description": "Positive-sequence resistance exactly as reported, on reported_impedance_base.",
+          "source": "LTDS R column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "reported_impedance_base"
+        },
+        {
+          "name": "reported_x1",
+          "type": "float64",
+          "unit": null,
+          "description": "Positive-sequence reactance exactly as reported, on reported_impedance_base.",
+          "source": "LTDS X column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "reported_impedance_base"
+        },
+        {
+          "name": "reported_x0",
+          "type": "float64",
+          "unit": null,
+          "description": "Zero-sequence reactance exactly as reported, on reported_impedance_base.",
+          "source": "LTDS X0 column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "reported_impedance_base"
+        },
+        {
+          "name": "winding_temp_max_degc",
+          "type": "float64",
+          "unit": "degC",
+          "description": "[VERIFY] Hot-spot winding temperature. No temperature telemetry is held for these units; reserved for a future source.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "top_oil_temp_max_degc",
+          "type": "float64",
+          "unit": "degC",
+          "description": "[VERIFY] Top-oil temperature. No temperature telemetry is held for these units; reserved for a future source.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Transformers/names.csv (named by hand, not published). Null where not named.",
+          "source": "Transformers/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Transformers/names.csv. Null where not named.",
+          "source": "Transformers/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Transformers/names.csv. Null where not named.",
+          "source": "Transformers/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Transformers/names.csv.",
+          "source": "Transformers/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "quality_flags",
+          "type": "string",
+          "unit": null,
+          "description": "Semicolon list of issues found while building the row (for example no_rating, zero_impedance, convention_inferred, hv_below_lv). Empty when none.",
+          "source": "derived: builder checks",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        }
+      ]
+    },
+    "taps": {
+      "kind": "observed",
+      "description": "On-load tap changer behaviour observed from busbar voltage readings at supergrid transformers (UKPN). profile_id is 'tap-<gsp>-<transformer>'. Filed under Transformers/observed.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable profile identifier (see the table description for its form).",
+          "source": "derived: identity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Lake dataset the row was built from.",
+          "source": "derived: input file",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "The row's key in its source (an operator ID, or the source row number where the operator publishes no ID).",
+          "source": "source row identity",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": true
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "gsp",
+          "type": "string",
+          "unit": null,
+          "description": "Grid supply point the supergrid transformer serves.",
+          "source": "Derived/tap_changers.gsp",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": true
+        },
+        {
+          "name": "transformer",
+          "type": "string",
+          "unit": null,
+          "description": "Transformer name at the GSP (AGGREGATE where the source only publishes a site total).",
+          "source": "Derived/tap_changers.sgt",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": true
+        },
+        {
+          "name": "voltage_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "Nominal voltage of the measured (LV) busbar.",
+          "source": "Derived/tap_changers.vnom_kv",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "n_obs",
+          "type": "int64",
+          "unit": "1",
+          "description": "Voltage readings the tap analysis used.",
+          "source": "Derived/tap_changers.n_obs",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "observed_from_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "First reading used.",
+          "source": "Derived/tap_changers.span_start",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "observed_to_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Last reading used.",
+          "source": "Derived/tap_changers.span_end",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "is_oltc",
+          "type": "bool",
+          "unit": null,
+          "description": "True when the voltage moves on a discrete tap lattice, so an on-load tap changer is evident.",
+          "source": "Derived/tap_changers.is_oltc",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "tap_step_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "Observed voltage step per tap.",
+          "source": "Derived/tap_changers.step_kv",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "tap_step_pct",
+          "type": "float64",
+          "unit": "%",
+          "description": "Observed step per tap as a percent of nominal voltage.",
+          "source": "Derived/tap_changers.step_pct",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "visible_steps",
+          "type": "int64",
+          "unit": "1",
+          "description": "Distinct tap positions seen in the readings.",
+          "source": "Derived/tap_changers.n_visible_steps",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "span_steps",
+          "type": "float64",
+          "unit": "1",
+          "description": "Spread of positions seen, in steps.",
+          "source": "Derived/tap_changers.span_steps",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "lattice_residual",
+          "type": "float64",
+          "unit": "1",
+          "description": "How far readings sit from the fitted tap lattice (lower is a cleaner fit).",
+          "source": "Derived/tap_changers.lattice_residual",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ltds_tap_span_pct",
+          "type": "float64",
+          "unit": "%",
+          "description": "Published tap range for this unit, where matched to LTDS.",
+          "source": "Derived/tap_changers.ltds_tap_span_pct",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ltds_expected_steps",
+          "type": "float64",
+          "unit": "1",
+          "description": "Tap positions the published range implies.",
+          "source": "Derived/tap_changers.ltds_expected_steps",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Transformers/names.csv (named by hand, not published). Null where not named.",
+          "source": "Transformers/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Transformers/names.csv. Null where not named.",
+          "source": "Transformers/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Transformers/names.csv. Null where not named.",
+          "source": "Transformers/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Transformers/names.csv.",
+          "source": "Transformers/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        }
+      ]
+    },
+    "flows": {
+      "kind": "observed",
+      "description": "Active and reactive power flow statistics per transformer from half-hourly readings, over each transformer's latest 365 days up to the last-updated date. profile_id is 'flow-<operator>-<region>-<substation>-<transformer>'. Filed under Transformers/observed.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable profile identifier (see the table description for its form).",
+          "source": "derived: identity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Lake dataset the row was built from.",
+          "source": "derived: input file",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "The row's key in its source (an operator ID, or the source row number where the operator publishes no ID).",
+          "source": "source row identity",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": true
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "operator",
+          "type": "string",
+          "unit": null,
+          "description": "Network operator group.",
+          "source": "Derived/bsp_power_factor.dno",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "region",
+          "type": "string",
+          "unit": null,
+          "description": "Published data set the readings come from (for example ukpn_sgt, nged_south_west).",
+          "source": "Derived/bsp_power_factor.region",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "substation",
+          "type": "string",
+          "unit": null,
+          "description": "Substation name as published.",
+          "source": "Derived/bsp_power_factor.substation",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": true
+        },
+        {
+          "name": "transformer",
+          "type": "string",
+          "unit": null,
+          "description": "Transformer name as published.",
+          "source": "Derived/bsp_power_factor.transformer",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": true
+        },
+        {
+          "name": "window_start_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "First reading in the statistics window (up to 365 days before window_end_utc).",
+          "source": "derived: readings",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "window_end_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Last reading in the window: the newest reading on or before the last-updated date.",
+          "source": "derived: readings",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "n_obs",
+          "type": "int64",
+          "unit": "1",
+          "description": "Half-hourly readings in the window with an active power value.",
+          "source": "derived: count",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "p_mw_min",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Lowest active power (negative is reverse flow).",
+          "source": "derived: MW",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "p_mw_p05",
+          "type": "float64",
+          "unit": "MW",
+          "description": "5th percentile of active power.",
+          "source": "derived: MW",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "p_mw_p50",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Median active power.",
+          "source": "derived: MW",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "p_mw_p95",
+          "type": "float64",
+          "unit": "MW",
+          "description": "95th percentile of active power.",
+          "source": "derived: MW",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "p_mw_max",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Highest active power.",
+          "source": "derived: MW",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "q_mvar_min",
+          "type": "float64",
+          "unit": "Mvar",
+          "description": "Lowest reactive power.",
+          "source": "derived: MVAr",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "q_mvar_p05",
+          "type": "float64",
+          "unit": "Mvar",
+          "description": "5th percentile of reactive power.",
+          "source": "derived: MVAr",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "q_mvar_p50",
+          "type": "float64",
+          "unit": "Mvar",
+          "description": "Median reactive power.",
+          "source": "derived: MVAr",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "q_mvar_p95",
+          "type": "float64",
+          "unit": "Mvar",
+          "description": "95th percentile of reactive power.",
+          "source": "derived: MVAr",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "q_mvar_max",
+          "type": "float64",
+          "unit": "Mvar",
+          "description": "Highest reactive power.",
+          "source": "derived: MVAr",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "s_mva_p50",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "Median apparent power.",
+          "source": "derived: MVA",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "s_mva_p95",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "95th percentile of apparent power.",
+          "source": "derived: MVA",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "s_mva_max",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "Highest apparent power.",
+          "source": "derived: MVA",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "pf_p05",
+          "type": "float64",
+          "unit": "1",
+          "description": "5th percentile of power factor (a low power factor is the stressed end).",
+          "source": "derived: power_factor",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "pf_p50",
+          "type": "float64",
+          "unit": "1",
+          "description": "Median power factor.",
+          "source": "derived: power_factor",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "kv_p05",
+          "type": "float64",
+          "unit": "kV",
+          "description": "5th percentile of measured voltage, where published.",
+          "source": "derived: kV",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "kv_p50",
+          "type": "float64",
+          "unit": "kV",
+          "description": "Median measured voltage, where published.",
+          "source": "derived: kV",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "kv_p95",
+          "type": "float64",
+          "unit": "kV",
+          "description": "95th percentile of measured voltage, where published.",
+          "source": "derived: kV",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "reverse_flow_share",
+          "type": "float64",
+          "unit": "1",
+          "description": "Fraction of readings with negative active power.",
+          "source": "derived: MW < 0",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "zero_flow_share",
+          "type": "float64",
+          "unit": "1",
+          "description": "Fraction of readings with exactly zero active power (often out of service or not metered).",
+          "source": "derived: MW == 0",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Transformers/names.csv (named by hand, not published). Null where not named.",
+          "source": "Transformers/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Transformers/names.csv. Null where not named.",
+          "source": "Transformers/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Transformers/names.csv. Null where not named.",
+          "source": "Transformers/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Transformers/names.csv.",
+          "source": "Transformers/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        }
+      ]
+    },
+    "stress": {
+      "kind": "observed",
+      "description": "Accumulated wear indicators per transformer: tap operations and time at high loading (UKPN supergrid transformers). profile_id is 'stress-<asset_id>'. Filed under Transformers/observed.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable profile identifier (see the table description for its form).",
+          "source": "derived: identity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Lake dataset the row was built from.",
+          "source": "derived: input file",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "The row's key in its source (an operator ID, or the source row number where the operator publishes no ID).",
+          "source": "source row identity",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": true
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "operator",
+          "type": "string",
+          "unit": null,
+          "description": "Network operator group.",
+          "source": "Derived/asset_stress_ledger.operator",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "asset_name",
+          "type": "string",
+          "unit": null,
+          "description": "Transformer name as recorded in the stress ledger.",
+          "source": "Derived/asset_stress_ledger.asset_name",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": true
+        },
+        {
+          "name": "asset_type",
+          "type": "string",
+          "unit": null,
+          "description": "Asset type in the stress ledger (for example sgt_ukpn).",
+          "source": "Derived/asset_stress_ledger.asset_type",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "voltage_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "Nominal voltage of the measured busbar.",
+          "source": "Derived/asset_stress_ledger.voltage_kv",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "window_start_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Start of the ledger window.",
+          "source": "Derived/asset_stress_ledger.window_start",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "window_end_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "End of the ledger window.",
+          "source": "Derived/asset_stress_ledger.window_end",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "tap_ops_total",
+          "type": "float64",
+          "unit": "1",
+          "description": "Tap operations counted over all readings.",
+          "source": "Derived/asset_stress_ledger.tap_ops_total",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "tap_ops_last_6mo",
+          "type": "float64",
+          "unit": "1",
+          "description": "Tap operations in the last 6 months of the window.",
+          "source": "Derived/asset_stress_ledger.tap_ops_last_6mo",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "tap_ops_prior_2yr",
+          "type": "float64",
+          "unit": "1",
+          "description": "Tap operations in the 2 years before that.",
+          "source": "Derived/asset_stress_ledger.tap_ops_prior_2yr",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "tap_rate_ratio",
+          "type": "float64",
+          "unit": "1",
+          "description": "Recent tap rate over the prior rate (above 1 means the tap changer is working harder recently).",
+          "source": "Derived/asset_stress_ledger.tap_rate_anomaly_ratio",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "tap_step_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "Tap step used to count operations.",
+          "source": "Derived/asset_stress_ledger.tap_step_kv",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "tap_step_source",
+          "type": "string",
+          "unit": null,
+          "description": "Where the tap step came from (tap_changers or estimated).",
+          "source": "Derived/asset_stress_ledger.tap_step_source",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "hours_over_80pct",
+          "type": "float64",
+          "unit": "h",
+          "description": "Hours loaded at or above 80% of rating.",
+          "source": "Derived/asset_stress_ledger.hours_over_80pct",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "worst_loading_pct",
+          "type": "float64",
+          "unit": "%",
+          "description": "Highest loading seen, as a percent of rating.",
+          "source": "Derived/asset_stress_ledger.worst_loading_pct",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "thermal_exceedance",
+          "type": "bool",
+          "unit": null,
+          "description": "True when the recent rate of high loading exceeds the asset's own history. Null where loading is not known.",
+          "source": "Derived/asset_stress_ledger.thermal_exceedance_flag",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Transformers/names.csv (named by hand, not published). Null where not named.",
+          "source": "Transformers/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Transformers/names.csv. Null where not named.",
+          "source": "Transformers/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Transformers/names.csv. Null where not named.",
+          "source": "Transformers/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Transformers/names.csv.",
+          "source": "Transformers/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        }
+      ]
+    }
+  }
+}

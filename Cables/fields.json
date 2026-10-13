@@ -1,0 +1,1048 @@
+{
+  "family": "Cables",
+  "tables": {
+    "circuits": {
+      "kind": "reference",
+      "description": "One row per published circuit (overhead line or cable) at one voltage class. Electrical values come from the DNO Long Term Development Statements (LTDS Table 1) as harmonised in the GDA cable lake; 275kV and 400kV rows are SSEN transmission GIS circuits that carry route length but no published impedance. Sentinel values (9999) in the source are nulled here and recorded in quality_flags.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable profile identifier: 'cable-' plus the first 16 hex characters of the SHA-256 of source_key.",
+          "source": "derived: sha256(source_key)",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Lake dataset the row was built from.",
+          "source": "constant: Derived/cable_lake/cable_lake.parquet",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "The cable lake's cable_id for this circuit.",
+          "source": "cable_lake.cable_id",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": true
+        },
+        {
+          "name": "evidence_source",
+          "type": "string",
+          "unit": null,
+          "description": "The original published file the cable lake read this circuit from.",
+          "source": "cable_lake.evidence_source",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "operator",
+          "type": "string",
+          "unit": null,
+          "description": "Network operator group (ukpn, npg, nged, spen, ssen).",
+          "source": "cable_lake.operator",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "licence",
+          "type": "string",
+          "unit": null,
+          "description": "Licence area within the operator group (for example EPN, SPM, NPGY).",
+          "source": "cable_lake.licence",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "voltage_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "Nominal voltage of the circuit. A published circuit runs at one voltage, so this is the voltage at both ends; voltage changes happen at transformers (see the Transformers family).",
+          "source": "cable_lake.voltage_kv",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "voltage_class",
+          "type": "string",
+          "unit": null,
+          "description": "Profiles folder for the voltage (6.6kv, 11kv, 33kv, 66kv, 132kv, 275kv, 400kv).",
+          "source": "derived: voltage_kv mapped to GB voltage classes",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "row_kind",
+          "type": "string",
+          "unit": null,
+          "description": "ltds_circuit (published impedance) or gis_circuit (route geometry and length only, no published impedance).",
+          "source": "derived: cable_lake.element_class",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "circuit_name",
+          "type": "string",
+          "unit": null,
+          "description": "Circuit name as published.",
+          "source": "cable_lake.circuit_name",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "circuit_code",
+          "type": "string",
+          "unit": null,
+          "description": "Circuit code as published.",
+          "source": "cable_lake.circuit_code",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "from_node",
+          "type": "string",
+          "unit": null,
+          "description": "Node (substation busbar) at the sending end, as published.",
+          "source": "cable_lake.from_node",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "to_node",
+          "type": "string",
+          "unit": null,
+          "description": "Node (substation busbar) at the receiving end, as published.",
+          "source": "cable_lake.to_node",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "unit": null,
+          "description": "Circuit state as published (energised or out).",
+          "source": "cable_lake.status",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "construction",
+          "type": "string",
+          "unit": null,
+          "description": "overhead, underground or unknown.",
+          "source": "cable_lake.ohl_or_underground",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "conductor_type",
+          "type": "string",
+          "unit": null,
+          "description": "Conductor or cable type where published (mostly blank in LTDS).",
+          "source": "cable_lake.conductor_type",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "length_km",
+          "type": "float64",
+          "unit": "km",
+          "description": "Circuit length used for per-km values: the LTDS-published length for LTDS circuits, the computed route length for GIS circuits.",
+          "source": "cable_lake.length_km_published, else cable_lake.geom_length_km",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "length_km_published",
+          "type": "float64",
+          "unit": "km",
+          "description": "Length as published in the LTDS.",
+          "source": "cable_lake.length_km_published",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "length_km_route",
+          "type": "float64",
+          "unit": "km",
+          "description": "Length computed from the GIS route geometry (geodesic). For NPG LTDS circuits this covers the overhead portion only.",
+          "source": "cable_lake.geom_length_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "r_ohm",
+          "type": "float64",
+          "unit": "ohm",
+          "description": "Positive-sequence series resistance of the whole circuit, harmonised to ohms by the cable lake.",
+          "source": "cable_lake.r_ohm",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x_ohm",
+          "type": "float64",
+          "unit": "ohm",
+          "description": "Positive-sequence series reactance of the whole circuit, harmonised to ohms.",
+          "source": "cable_lake.x_ohm",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "b_us",
+          "type": "float64",
+          "unit": "uS",
+          "description": "Total shunt susceptance of the whole circuit in microsiemens: (b_pct_100mva / 100) x 100 MVA / voltage_kv squared, x 1e6.",
+          "source": "derived: cable_lake.b_pct_100mva, voltage_kv",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "r0_ohm",
+          "type": "float64",
+          "unit": "ohm",
+          "description": "Zero-sequence series resistance of the whole circuit in ohms, from reported_r0 on reported_impedance_base by the same rule that gives r_ohm (percent or per unit on 100 MVA x kV squared / 100; ohmic values as published). Published by some operators only.",
+          "source": "derived: reported_r0, reported_impedance_base, voltage_kv",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x0_ohm",
+          "type": "float64",
+          "unit": "ohm",
+          "description": "Zero-sequence series reactance of the whole circuit in ohms, converted as r0_ohm.",
+          "source": "derived: reported_x0, reported_impedance_base, voltage_kv",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "r_pct_100mva",
+          "type": "float64",
+          "unit": "%",
+          "description": "Series resistance in percent on a 100 MVA base.",
+          "source": "cable_lake.r_pct_100mva",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x_pct_100mva",
+          "type": "float64",
+          "unit": "%",
+          "description": "Series reactance in percent on a 100 MVA base.",
+          "source": "cable_lake.x_pct_100mva",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "b_pct_100mva",
+          "type": "float64",
+          "unit": "%",
+          "description": "Shunt susceptance in percent on a 100 MVA base.",
+          "source": "cable_lake.b_pct_100mva",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "r_ohm_per_km",
+          "type": "float64",
+          "unit": "ohm/km",
+          "description": "r_ohm / length_km, set only when both are valid and the length is above zero.",
+          "source": "derived: r_ohm / length_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x_ohm_per_km",
+          "type": "float64",
+          "unit": "ohm/km",
+          "description": "x_ohm / length_km, set only when both are valid and the length is above zero.",
+          "source": "derived: x_ohm / length_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "b_us_per_km",
+          "type": "float64",
+          "unit": "uS/km",
+          "description": "b_us / length_km, set only when both are valid and the length is above zero.",
+          "source": "derived: b_us / length_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x_over_r",
+          "type": "float64",
+          "unit": "1",
+          "description": "X/R ratio, set only when r_ohm is above zero.",
+          "source": "derived: x_ohm / r_ohm",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "reported_impedance_base",
+          "type": "string",
+          "unit": null,
+          "description": "The base the operator published its impedance on: percent_on_100mva, pu_on_100mva or ohmic_referred.",
+          "source": "cable_lake.impedance_base",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "reported_r1",
+          "type": "float64",
+          "unit": null,
+          "description": "Positive-sequence resistance exactly as reported, on reported_impedance_base (no conversion).",
+          "source": "cable_lake.r1_raw",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "reported_impedance_base"
+        },
+        {
+          "name": "reported_x1",
+          "type": "float64",
+          "unit": null,
+          "description": "Positive-sequence reactance exactly as reported, on reported_impedance_base.",
+          "source": "cable_lake.x1_raw",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "reported_impedance_base"
+        },
+        {
+          "name": "reported_b1",
+          "type": "float64",
+          "unit": null,
+          "description": "Positive-sequence susceptance exactly as reported, on reported_impedance_base.",
+          "source": "cable_lake.b1_raw",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "reported_impedance_base"
+        },
+        {
+          "name": "reported_r0",
+          "type": "float64",
+          "unit": null,
+          "description": "Zero-sequence resistance exactly as reported, on reported_impedance_base (published by some operators only).",
+          "source": "cable_lake.r0_raw",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "reported_impedance_base"
+        },
+        {
+          "name": "reported_x0",
+          "type": "float64",
+          "unit": null,
+          "description": "Zero-sequence reactance exactly as reported, on reported_impedance_base.",
+          "source": "cable_lake.x0_raw",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "reported_impedance_base"
+        },
+        {
+          "name": "rating_winter_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "Winter thermal rating as published.",
+          "source": "cable_lake.winter_rating_mva",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rating_summer_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "Summer thermal rating as published.",
+          "source": "cable_lake.summer_rating_mva",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rating_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "Rating the cable lake uses as the circuit's main rating (the winter rating where published).",
+          "source": "cable_lake.rating_mva",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rate_a_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "GridSim Rate A (normal, continuous): the winter continuous rating where published.",
+          "source": "cable_lake.winter_rating_mva",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rate_a_basis",
+          "type": "string",
+          "unit": null,
+          "description": "What Rate A is: the season or condition the published rating applies to.",
+          "source": "derived: source table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rate_b_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "[VERIFY] GridSim Rate B (short-term). Not published for these assets, so null; GridSim applies its own documented default.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rate_b_basis",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] What Rate B is (null while Rate B is not published).",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rate_c_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "[VERIFY] GridSim Rate C (emergency): not published for circuits in LTDS, so null.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rate_c_basis",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] What Rate C is (null while Rate C is not published).",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "geometry_wkt",
+          "type": "string",
+          "unit": null,
+          "description": "Route geometry (WGS84 WKT) where the cable lake holds it.",
+          "source": "cable_lake.geometry_wkt",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Cables/names.csv (named by hand, not published). Null where not named.",
+          "source": "Cables/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Cables/names.csv. Null where not named.",
+          "source": "Cables/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Cables/names.csv. Null where not named.",
+          "source": "Cables/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Cables/names.csv.",
+          "source": "Cables/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "quality_flags",
+          "type": "string",
+          "unit": null,
+          "description": "Semicolon list of data issues found while building the row (for example sentinel_9999_impedance, zero_impedance, no_length, sentinel_9999_rating). Empty when none.",
+          "source": "derived: builder checks",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        }
+      ]
+    },
+    "types": {
+      "kind": "reference",
+      "description": "Cable and line archetypes per voltage class: circuits grouped by construction and conductor type, with the spread of per-km impedance, rating and length. Use these to pick a typical cable for a synthetic network. Built from ltds_circuit rows only, with no quality flags.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable identifier: cabletype-<voltage_class>-<construction>-<conductor_type>.",
+          "source": "derived: group keys",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Lake dataset the archetype was built from.",
+          "source": "constant: Derived/cable_lake/cable_lake.parquet",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "voltage_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "Nominal voltage of the class (circuits or spans published at an operating voltage within 5% of it are included).",
+          "source": "derived: nominal voltage of voltage_class",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "voltage_class",
+          "type": "string",
+          "unit": null,
+          "description": "Profiles voltage folder.",
+          "source": "circuits.voltage_class",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "construction",
+          "type": "string",
+          "unit": null,
+          "description": "overhead, underground or unknown.",
+          "source": "circuits.construction",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "conductor_type",
+          "type": "string",
+          "unit": null,
+          "description": "Conductor type, or 'unknown' where not published.",
+          "source": "circuits.conductor_type",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "n_circuits",
+          "type": "int64",
+          "unit": "1",
+          "description": "Number of circuits in the group.",
+          "source": "derived: count",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "n_with_per_km",
+          "type": "int64",
+          "unit": "1",
+          "description": "Circuits in the group with valid per-km impedance (the sample behind the ohm/km percentiles).",
+          "source": "derived: count",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "r_ohm_per_km_p10",
+          "type": "float64",
+          "unit": "ohm/km",
+          "description": "10th percentile of r_ohm_per_km.",
+          "source": "derived: circuits.r_ohm_per_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "r_ohm_per_km_p50",
+          "type": "float64",
+          "unit": "ohm/km",
+          "description": "Median r_ohm_per_km.",
+          "source": "derived: circuits.r_ohm_per_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "r_ohm_per_km_p90",
+          "type": "float64",
+          "unit": "ohm/km",
+          "description": "90th percentile of r_ohm_per_km.",
+          "source": "derived: circuits.r_ohm_per_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x_ohm_per_km_p10",
+          "type": "float64",
+          "unit": "ohm/km",
+          "description": "10th percentile of x_ohm_per_km.",
+          "source": "derived: circuits.x_ohm_per_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x_ohm_per_km_p50",
+          "type": "float64",
+          "unit": "ohm/km",
+          "description": "Median x_ohm_per_km.",
+          "source": "derived: circuits.x_ohm_per_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "x_ohm_per_km_p90",
+          "type": "float64",
+          "unit": "ohm/km",
+          "description": "90th percentile of x_ohm_per_km.",
+          "source": "derived: circuits.x_ohm_per_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "b_us_per_km_p50",
+          "type": "float64",
+          "unit": "uS/km",
+          "description": "Median b_us_per_km.",
+          "source": "derived: circuits.b_us_per_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rating_mva_p10",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "10th percentile of rating_mva.",
+          "source": "derived: circuits.rating_mva",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rating_mva_p50",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "Median rating_mva.",
+          "source": "derived: circuits.rating_mva",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rating_mva_p90",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "90th percentile of rating_mva.",
+          "source": "derived: circuits.rating_mva",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "length_km_p10",
+          "type": "float64",
+          "unit": "km",
+          "description": "10th percentile of length_km.",
+          "source": "derived: circuits.length_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "length_km_p50",
+          "type": "float64",
+          "unit": "km",
+          "description": "Median length_km.",
+          "source": "derived: circuits.length_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "length_km_p90",
+          "type": "float64",
+          "unit": "km",
+          "description": "90th percentile of length_km.",
+          "source": "derived: circuits.length_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Cables/names.csv (named by hand, not published). Null where not named.",
+          "source": "Cables/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Cables/names.csv. Null where not named.",
+          "source": "Cables/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Cables/names.csv. Null where not named.",
+          "source": "Cables/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Cables/names.csv.",
+          "source": "Cables/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        }
+      ]
+    },
+    "spans": {
+      "kind": "reference",
+      "description": "Overhead line spans from operator GIS (no circuit identity, no impedance), summarised per voltage class, operator and conductor type. Gives route-length and conductor evidence for voltages, chiefly 11kV and 6.6kV, where published circuit impedance is thin.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable identifier: cablespan-<voltage_class>-<operator>-<construction>-<conductor_type>.",
+          "source": "derived: group keys",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Lake dataset the summary was built from.",
+          "source": "constant: Derived/cable_lake/cable_lake.parquet",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "voltage_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "Nominal voltage of the class (circuits or spans published at an operating voltage within 5% of it are included).",
+          "source": "derived: nominal voltage of voltage_class",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "voltage_class",
+          "type": "string",
+          "unit": null,
+          "description": "Profiles voltage folder.",
+          "source": "derived: voltage_kv",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "operator",
+          "type": "string",
+          "unit": null,
+          "description": "Network operator group.",
+          "source": "cable_lake.operator",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "construction",
+          "type": "string",
+          "unit": null,
+          "description": "overhead, underground or unknown.",
+          "source": "cable_lake.ohl_or_underground",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "conductor_type",
+          "type": "string",
+          "unit": null,
+          "description": "Conductor type, or 'unknown' where not published.",
+          "source": "cable_lake.conductor_type",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "n_spans",
+          "type": "int64",
+          "unit": "1",
+          "description": "Number of GIS spans in the group.",
+          "source": "derived: count",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "total_route_km",
+          "type": "float64",
+          "unit": "km",
+          "description": "Sum of geodesic span lengths.",
+          "source": "derived: sum of cable_lake.geom_length_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "span_km_p10",
+          "type": "float64",
+          "unit": "km",
+          "description": "10th percentile of span length.",
+          "source": "derived: cable_lake.geom_length_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "span_km_p50",
+          "type": "float64",
+          "unit": "km",
+          "description": "Median span length.",
+          "source": "derived: cable_lake.geom_length_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "span_km_p90",
+          "type": "float64",
+          "unit": "km",
+          "description": "90th percentile of span length.",
+          "source": "derived: cable_lake.geom_length_km",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Cables/names.csv (named by hand, not published). Null where not named.",
+          "source": "Cables/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Cables/names.csv. Null where not named.",
+          "source": "Cables/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Cables/names.csv. Null where not named.",
+          "source": "Cables/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Cables/names.csv.",
+          "source": "Cables/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        }
+      ]
+    }
+  }
+}

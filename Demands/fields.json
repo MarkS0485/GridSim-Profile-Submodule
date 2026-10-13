@@ -1,0 +1,1130 @@
+{
+  "family": "Demands",
+  "tables": {
+    "sites": {
+      "kind": "reference",
+      "description": "Large demand sites of a known type, classified from the unified large-consumer register (Derived/demand_consumers, built by GDA from DNO embedded capacity registers, large demand lists and the TEC register). A site needs an import capacity to count. Rules are tried in order, specific before general (hospitals before universities, naval before port); names that mark a generation project (solar farm or park, wind farm, BESS) and place-name uses (School Farm, College Lane, Port Clarence) are excluded. Demand-shape fields are defined but empty until a source exists. profile_id is 'dem-' plus 16 hex of SHA-256 of source_key.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable profile identifier (see the table description for its form).",
+          "source": "derived: identity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Lake dataset the row was built from.",
+          "source": "derived: input file",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "The row's key in its source.",
+          "source": "source row identity",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": true
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "site_type",
+          "type": "string",
+          "unit": null,
+          "description": "Profiles folder under Demands (Hospitals, Schools, Universities, Colleges, Datacentres/Hyperscale (import 50 MW or more), Datacentres/SME (under 5 MW), Datacentres/Other, Datacentres/ByLocalAuthority (UKPN's per-local-authority totals: many sites summed, not banded), Port, Military/Land, Military/Naval).",
+          "source": "derived: classification rules",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "match_rule",
+          "type": "string",
+          "unit": null,
+          "description": "The classification rule that matched, as '<rule name>: <matched text>'. Rules are tried in a fixed order; the first match wins.",
+          "source": "derived: classification rules",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "unit": null,
+          "description": "Customer or project name as published.",
+          "source": "Derived/demand_consumers.name",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "site",
+          "type": "string",
+          "unit": null,
+          "description": "Site name as published.",
+          "source": "Derived/demand_consumers.site",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "register_type",
+          "type": "string",
+          "unit": null,
+          "description": "Row type in the unified consumer register (large_demand, der, generation, solar, datacentre and so on).",
+          "source": "Derived/demand_consumers.type",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "energy_tech",
+          "type": "string",
+          "unit": null,
+          "description": "On-site technology as published (for example Photovoltaic, CCGT, Large Demand).",
+          "source": "Derived/demand_consumers.energy_tech",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "import_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Site import capacity: the most the site may draw from the network.",
+          "source": "Derived/demand_consumers.import_mw",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "export_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Site export capacity (on-site generation or storage).",
+          "source": "Derived/demand_consumers.export_mw",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "storage_mwh",
+          "type": "float64",
+          "unit": "MWh",
+          "description": "On-site storage energy where published.",
+          "source": "Derived/demand_consumers.storage_mwh",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "poc_voltage_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "Point of connection voltage.",
+          "source": "Derived/demand_consumers.poc_voltage_kv",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "gsp_name",
+          "type": "string",
+          "unit": null,
+          "description": "Grid supply point as published.",
+          "source": "Derived/demand_consumers.gsp_name",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "bsp",
+          "type": "string",
+          "unit": null,
+          "description": "Bulk supply point as published.",
+          "source": "Derived/demand_consumers.bsp",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "primary",
+          "type": "string",
+          "unit": null,
+          "description": "Primary substation as published.",
+          "source": "Derived/demand_consumers.primary",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "local_authority",
+          "type": "string",
+          "unit": null,
+          "description": "Local authority.",
+          "source": "Derived/demand_consumers.local_authority",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "easting",
+          "type": "float64",
+          "unit": "m",
+          "description": "OSGB easting in metres (British National Grid, EPSG:27700). Identifies the site, so sensitive.",
+          "source": "Derived/demand_consumers.easting",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "northing",
+          "type": "float64",
+          "unit": "m",
+          "description": "OSGB northing in metres (British National Grid, EPSG:27700). Identifies the site, so sensitive.",
+          "source": "Derived/demand_consumers.northing",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "postcode",
+          "type": "string",
+          "unit": null,
+          "description": "Postcode.",
+          "source": "Derived/demand_consumers.postcode",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "connection_status",
+          "type": "string",
+          "unit": null,
+          "description": "Connection status as published (connected, accepted and so on).",
+          "source": "Derived/demand_consumers.connection_status",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "evidence_source",
+          "type": "string",
+          "unit": null,
+          "description": "Published register the row came from.",
+          "source": "Derived/demand_consumers.evidence_source",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "base_load_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "[VERIFY] Typical steady demand. No source in the lake yet; reserved so the profile shape is fixed.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "peak_load_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "[VERIFY] Observed peak demand. No source in the lake yet; reserved so the profile shape is fixed.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "load_factor",
+          "type": "float64",
+          "unit": "1",
+          "description": "[VERIFY] Mean demand over peak demand. No source in the lake yet; reserved so the profile shape is fixed.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "fluctuation_band_pct",
+          "type": "float64",
+          "unit": "%",
+          "description": "[VERIFY] Typical short-term swing around the base load (datacentres: small). No source in the lake yet; reserved so the profile shape is fixed.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_up_mw_per_min",
+          "type": "float64",
+          "unit": "MW/min",
+          "description": "[VERIFY] Fastest demand rise (datacentres: job start; ports: crane lift). No source in the lake yet; reserved so the profile shape is fixed.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_down_mw_per_min",
+          "type": "float64",
+          "unit": "MW/min",
+          "description": "[VERIFY] Fastest demand fall. No source in the lake yet; reserved so the profile shape is fixed.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "power_factor",
+          "type": "float64",
+          "unit": "1",
+          "description": "[VERIFY] Typical power factor at the connection. No source in the lake yet; reserved so the profile shape is fixed.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "voltage_sag_pct",
+          "type": "float64",
+          "unit": "%",
+          "description": "[VERIFY] Voltage dip at the connection under the largest load step (ports: crane and shore-power steps). No source in the lake yet; reserved so the profile shape is fixed.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "shore_power_peak_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "[VERIFY] Ports: peak demand when ships connect to shore power. No source in the lake yet; reserved so the profile shape is fixed.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "shore_power_connections_per_week",
+          "type": "float64",
+          "unit": "1",
+          "description": "[VERIFY] Ports: ship shore-power connections per week. No source in the lake yet; reserved so the profile shape is fixed.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "crane_peak_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "[VERIFY] Ports: peak demand of one crane lift. No source in the lake yet; reserved so the profile shape is fixed.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "crane_cycle_s",
+          "type": "float64",
+          "unit": "s",
+          "description": "[VERIFY] Ports: duration of one crane duty cycle. No source in the lake yet; reserved so the profile shape is fixed.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Demands/names.csv (named by hand, not published). Null where not named.",
+          "source": "Demands/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Demands/names.csv. Null where not named.",
+          "source": "Demands/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Demands/names.csv. Null where not named.",
+          "source": "Demands/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Demands/names.csv.",
+          "source": "Demands/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "quality_flags",
+          "type": "string",
+          "unit": null,
+          "description": "Semicolon list of issues (for example no_poc_voltage). Empty when none.",
+          "source": "derived: builder checks",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        }
+      ]
+    },
+    "load_centres": {
+      "kind": "reference",
+      "description": "Substation demand from the operators' Long Term Development Statements (LTDS Table 3): observed peak, power factor, firm capacity, minimum load and the operator's own five-year demand forecast, for forward planning. Filed under Demands/LoadCentres/<voltage class>. profile_id is 'load-' plus 16 hex of SHA-256 of source_key.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable profile identifier (see the table description for its form).",
+          "source": "derived: identity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Lake dataset the row was built from.",
+          "source": "derived: input file",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "The row's key in its source.",
+          "source": "source row identity",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": true
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "operator",
+          "type": "string",
+          "unit": null,
+          "description": "Network operator group (ukpn, npg, nged).",
+          "source": "derived: source file",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "licence",
+          "type": "string",
+          "unit": null,
+          "description": "Licence area.",
+          "source": "LTDS licence column",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "gsp_group",
+          "type": "string",
+          "unit": null,
+          "description": "Grid supply point or group as published.",
+          "source": "LTDS Table 3 GSP / group column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "bsp_group",
+          "type": "string",
+          "unit": null,
+          "description": "Bulk supply point group (NGED only).",
+          "source": "NGED LTDS Table 3 BSP Group",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "substation",
+          "type": "string",
+          "unit": null,
+          "description": "Substation or busbar name as published.",
+          "source": "LTDS Table 3 substation column",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "node",
+          "type": "string",
+          "unit": null,
+          "description": "Node code (NGED only).",
+          "source": "NGED LTDS Table 3 Node",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "voltage_kv",
+          "type": "float64",
+          "unit": "kV",
+          "description": "Voltage the demand is measured at (UKPN: taken from the substation name, for example 'Chinnor Primary 11kV').",
+          "source": "LTDS Table 3 voltage column / substation name",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "voltage_class",
+          "type": "string",
+          "unit": null,
+          "description": "Profiles voltage folder.",
+          "source": "derived: voltage_kv mapped to GB voltage classes",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "unit": null,
+          "description": "energised, out, planned or unknown (NGED only; null elsewhere).",
+          "source": "NGED LTDS Table 3 Status",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "season",
+          "type": "string",
+          "unit": null,
+          "description": "Winter or Summer (UKPN publishes one row per season); null where the operator publishes one annual figure.",
+          "source": "UKPN LTDS Table 3a Season",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "base_year",
+          "type": "string",
+          "unit": null,
+          "description": "Year the observed maximum demand refers to (for example 2024/25).",
+          "source": "LTDS Table 3 column heading",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "peak_demand_reported",
+          "type": "float64",
+          "unit": null,
+          "description": "Observed maximum demand exactly as published, in demand_unit.",
+          "source": "LTDS Table 3 maximum demand",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "demand_unit"
+        },
+        {
+          "name": "demand_unit",
+          "type": "string",
+          "unit": null,
+          "description": "Unit of peak_demand_reported and the forecasts: MW (UKPN, NGED) or MVA (NPG).",
+          "source": "derived: source table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "peak_power_factor",
+          "type": "float64",
+          "unit": "1",
+          "description": "Power factor at the observed maximum demand.",
+          "source": "LTDS Table 3 power factor",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "peak_demand_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Observed maximum demand in MW (NPG: MVA x power factor).",
+          "source": "derived: peak_demand_reported, peak_power_factor",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "peak_demand_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "Observed maximum demand in MVA (UKPN, NGED: MW / power factor).",
+          "source": "derived: peak_demand_reported, peak_power_factor",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "forecast_y1",
+          "type": "float64",
+          "unit": null,
+          "description": "Operator's own forecast of maximum demand for base year + 1, in demand_unit.",
+          "source": "LTDS Table 3 forecast columns",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "demand_unit"
+        },
+        {
+          "name": "forecast_y2",
+          "type": "float64",
+          "unit": null,
+          "description": "Operator's forecast for base year + 2, in demand_unit.",
+          "source": "LTDS Table 3 forecast columns",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "demand_unit"
+        },
+        {
+          "name": "forecast_y3",
+          "type": "float64",
+          "unit": null,
+          "description": "Operator's forecast for base year + 3, in demand_unit.",
+          "source": "LTDS Table 3 forecast columns",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "demand_unit"
+        },
+        {
+          "name": "forecast_y4",
+          "type": "float64",
+          "unit": null,
+          "description": "Operator's forecast for base year + 4, in demand_unit.",
+          "source": "LTDS Table 3 forecast columns",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "demand_unit"
+        },
+        {
+          "name": "forecast_y5",
+          "type": "float64",
+          "unit": null,
+          "description": "Operator's forecast for base year + 5, in demand_unit.",
+          "source": "LTDS Table 3 forecast columns",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "demand_unit"
+        },
+        {
+          "name": "firm_capacity_reported",
+          "type": "float64",
+          "unit": null,
+          "description": "Firm capacity of the substation exactly as published, in firm_capacity_unit.",
+          "source": "LTDS Table 3 firm capacity",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false,
+          "unit_from": "firm_capacity_unit"
+        },
+        {
+          "name": "firm_capacity_unit",
+          "type": "string",
+          "unit": null,
+          "description": "Unit of firm_capacity_reported: MW (UKPN), MVA (NPG) or unknown (NGED does not state it).",
+          "source": "derived: source table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "headroom_pct",
+          "type": "float64",
+          "unit": "%",
+          "description": "Firm capacity left unused at the observed peak: (firm - peak) / firm x 100, in the published units. Null where the units differ or are unknown.",
+          "source": "derived: firm_capacity_reported, peak_demand_reported",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "min_load_scaling_pct",
+          "type": "float64",
+          "unit": "%",
+          "description": "Minimum demand as a percent of maximum (UKPN, NGED).",
+          "source": "LTDS Table 3 minimum load scaling factor",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "min_load_mva",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "Observed minimum load (NPG; negative means the substation exports at minimum).",
+          "source": "NPG Appendix 5 minimum load",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Demands/names.csv (named by hand, not published). Null where not named.",
+          "source": "Demands/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Demands/names.csv. Null where not named.",
+          "source": "Demands/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Demands/names.csv. Null where not named.",
+          "source": "Demands/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Demands/names.csv.",
+          "source": "Demands/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "quality_flags",
+          "type": "string",
+          "unit": null,
+          "description": "Semicolon list of issues (for example no_peak_demand, voltage_from_name). Empty when none.",
+          "source": "derived: builder checks",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        }
+      ]
+    },
+    "datacentre_profiles": {
+      "kind": "observed",
+      "description": "Half-hourly demand shape of each data centre in UKPN's Data Centre Demand Profiles (anonymised as 'Data Centre #N'), over each site's latest 365 days up to the last-updated date: base, median and peak utilisation, load factor, fluctuation band and half-hourly ramps, all as fractions of the site's capacity. Filed under Demands/Datacentres/Profiles.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable identifier: 'dc-ukpn-' plus the anonymised number, two digits (Data Centre #8 is dc-ukpn-08).",
+          "source": "derived: anonymised_name",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Lake dataset the statistics come from.",
+          "source": "constant: UkPowerNetworks/Parquet/data_centre_demand_profiles",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "UKPN's anonymised data centre name.",
+          "source": "UkPowerNetworks/Parquet/data_centre_demand_profiles anonymised_data_centre_name",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "operator",
+          "type": "string",
+          "unit": null,
+          "description": "Network operator publishing the profile (ukpn).",
+          "source": "derived: source",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "anonymised_name",
+          "type": "string",
+          "unit": null,
+          "description": "UKPN's anonymised name, for example 'Data Centre #8'. The key that site_names.csv names.",
+          "source": "UkPowerNetworks/Parquet/data_centre_demand_profiles anonymised_data_centre_name",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "dc_number",
+          "type": "int64",
+          "unit": "1",
+          "description": "The number in the anonymised name.",
+          "source": "derived: anonymised_name",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "dc_type",
+          "type": "string",
+          "unit": null,
+          "description": "Enterprise (one owner's own estate) or Co-located (space let to many customers).",
+          "source": "UkPowerNetworks/Parquet/data_centre_demand_profiles dc_type",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "connection_level",
+          "type": "string",
+          "unit": null,
+          "description": "Voltage level of the import connection as published (Extra-High, High or Low Voltage Import).",
+          "source": "UkPowerNetworks/Parquet/data_centre_demand_profiles cleansed_voltage_level",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "window_start_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "First reading in the statistics window (up to 365 days before window_end_utc).",
+          "source": "derived: readings",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "window_end_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Last reading in the window: the newest on or before the last-updated date.",
+          "source": "derived: readings",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "n_readings",
+          "type": "int64",
+          "unit": "1",
+          "description": "Half-hourly readings in the window.",
+          "source": "derived: count",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "utilisation_min",
+          "type": "float64",
+          "unit": "1",
+          "description": "Lowest half-hourly utilisation: demand as a fraction of the site's capacity.",
+          "source": "UkPowerNetworks/Parquet/data_centre_demand_profiles hh_utilisation_ratio",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "utilisation_p05",
+          "type": "float64",
+          "unit": "1",
+          "description": "5th percentile of utilisation: the site's base load as a fraction of capacity.",
+          "source": "UkPowerNetworks/Parquet/data_centre_demand_profiles hh_utilisation_ratio",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "utilisation_p50",
+          "type": "float64",
+          "unit": "1",
+          "description": "Median utilisation.",
+          "source": "UkPowerNetworks/Parquet/data_centre_demand_profiles hh_utilisation_ratio",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "utilisation_p95",
+          "type": "float64",
+          "unit": "1",
+          "description": "95th percentile of utilisation.",
+          "source": "UkPowerNetworks/Parquet/data_centre_demand_profiles hh_utilisation_ratio",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "utilisation_max",
+          "type": "float64",
+          "unit": "1",
+          "description": "Highest half-hourly utilisation: the site's peak as a fraction of capacity.",
+          "source": "UkPowerNetworks/Parquet/data_centre_demand_profiles hh_utilisation_ratio",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "utilisation_mean",
+          "type": "float64",
+          "unit": "1",
+          "description": "Mean utilisation.",
+          "source": "UkPowerNetworks/Parquet/data_centre_demand_profiles hh_utilisation_ratio",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "load_factor",
+          "type": "float64",
+          "unit": "1",
+          "description": "Mean over peak utilisation (1 is a perfectly flat load). Null when the peak is zero.",
+          "source": "derived: utilisation_mean / utilisation_max",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "fluctuation_band",
+          "type": "float64",
+          "unit": "1",
+          "description": "utilisation_p95 minus utilisation_p05: the normal swing, as a fraction of capacity.",
+          "source": "derived: utilisation_p95 - utilisation_p05",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_up_p99",
+          "type": "float64",
+          "unit": "1",
+          "description": "99th percentile of the rise between consecutive half-hours, as a fraction of capacity per half-hour (only readings exactly 30 minutes apart).",
+          "source": "derived: consecutive readings",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_down_p99",
+          "type": "float64",
+          "unit": "1",
+          "description": "99th percentile of the fall between consecutive half-hours, as a positive fraction of capacity per half-hour.",
+          "source": "derived: consecutive readings",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_up_max",
+          "type": "float64",
+          "unit": "1",
+          "description": "Largest rise between consecutive half-hours, as a fraction of capacity per half-hour.",
+          "source": "derived: consecutive readings",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_down_max",
+          "type": "float64",
+          "unit": "1",
+          "description": "Largest fall between consecutive half-hours, as a positive fraction of capacity per half-hour.",
+          "source": "derived: consecutive readings",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Demands/names.csv (named by hand, not published). Null where not named.",
+          "source": "Demands/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Demands/names.csv. Null where not named.",
+          "source": "Demands/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Demands/names.csv. Null where not named.",
+          "source": "Demands/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Demands/names.csv.",
+          "source": "Demands/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "quality_flags",
+          "type": "string",
+          "unit": null,
+          "description": "Semicolon list of issues (for example several_types_published, several_levels_published, zero_peak). Empty when none.",
+          "source": "derived: builder checks",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        }
+      ]
+    }
+  }
+}

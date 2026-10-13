@@ -1,0 +1,1103 @@
+{
+  "family": "Generator",
+  "tables": {
+    "bm_units": {
+      "kind": "reference",
+      "description": "One row per Balancing Mechanism unit that can generate (interconnector units are in the Interconnects family). Registration and machine data from Elexon; the statistics of its notified dynamics and metered output are in bm_dynamics. profile_id is 'gen-bmu-' plus the slug of the Elexon id.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable profile identifier (see the table description for its form).",
+          "source": "derived: identity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Lake dataset the row was built from.",
+          "source": "derived: input file",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "Elexon BM unit id, or 'ng:' plus the National Grid id where Elexon has no registration.",
+          "source": "source row identity",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "bmu_id",
+          "type": "string",
+          "unit": null,
+          "description": "Elexon BM unit id; for a unit NESO lists without an Elexon registration, 'ng:' plus its National Grid id.",
+          "source": "Elexon/Reference/bmunits_all.json elexonBmUnit",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "ng_bmu_id",
+          "type": "string",
+          "unit": null,
+          "description": "NESO (National Grid) BM unit id.",
+          "source": "bmunits_all.json nationalGridBmUnit",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "unit_name",
+          "type": "string",
+          "unit": null,
+          "description": "BM unit name as registered.",
+          "source": "bmunits_all.json bmUnitName",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "lead_party",
+          "type": "string",
+          "unit": null,
+          "description": "Registered lead party.",
+          "source": "bmunits_all.json leadPartyName",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "bmu_type",
+          "type": "string",
+          "unit": null,
+          "description": "Elexon BM unit type (T transmission, E embedded, I interconnector, S supplier, V virtual and so on).",
+          "source": "bmunits_all.json bmUnitType",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "fuel_type",
+          "type": "string",
+          "unit": null,
+          "description": "Elexon fuel type (CCGT, OCGT, NUCLEAR, WIND, BIOMASS and so on). Null for most embedded and supplier units: Elexon publishes no fuel for them.",
+          "source": "bmunits_all.json fuelType",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "fuel_folder",
+          "type": "string",
+          "unit": null,
+          "description": "Profiles folder under Generator.",
+          "source": "derived: fuel_type via the builder's FUEL table",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "gsp_group",
+          "type": "string",
+          "unit": null,
+          "description": "GSP group name.",
+          "source": "bmunits_all.json gspGroupName",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "transmission_loss_factor",
+          "type": "float64",
+          "unit": "1",
+          "description": "Transmission loss factor applied in settlement.",
+          "source": "bmunits_all.json transmissionLossFactor",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "capacity_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Registered generation capacity.",
+          "source": "bmunits_all.json generationCapacity",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rated_mva_assumed",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "[VERIFY] Machine MVA base for per-unit values (pu@machine, H): capacity_mw / 0.9, using the power factor GDA's inertia work assumes. Assumed, not published: replace when a published MVA rating is found.",
+          "source": "derived: capacity_mw / 0.9 (assumed power factor)",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "demand_capacity_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Registered demand capacity (negative or zero for generators; storage and pumped units import).",
+          "source": "bmunits_all.json demandCapacity",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "max_rating_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Estimated maximum rating, on the rule that nameplate capacity is 80% of the machine's maximum: capacity / 0.8.",
+          "source": "derived: capacity / 0.8 (Mark's rule)",
+          "provenance": "Synthetic",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "thermal_headroom_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Estimated thermal headroom above nameplate: max_rating_mw minus capacity.",
+          "source": "derived: max_rating_mw - capacity",
+          "provenance": "Synthetic",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "inertia_h_s",
+          "type": "float64",
+          "unit": "s",
+          "description": "[VERIFY] Typical inertia constant H for the fuel, on the machine's own MVA base, from GDA's documented table (Scripts/build_inertia_reconstructed.py H_BY_FUEL: NESO, ENTSO-E and classical machine ranges). Null for converter-connected plant, which adds no true inertia.",
+          "source": "GDA H_BY_FUEL by fuel",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "stored_energy_s_mva",
+          "type": "float64",
+          "unit": "s.MVA",
+          "description": "[VERIFY] Kinetic energy at rated speed: inertia_h_s x rated_mva_assumed.",
+          "source": "derived: inertia_h_s, rated_mva_assumed",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "pole_count",
+          "type": "int64",
+          "unit": "1",
+          "description": "[VERIFY] Number of generator poles. Not held in the lake; reserved for a future source.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rated_speed_rpm",
+          "type": "float64",
+          "unit": "rpm",
+          "description": "[VERIFY] Rated shaft speed (120 x 50 / pole_count). Not held in the lake; set when pole_count is known.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rated_torque_knm",
+          "type": "float64",
+          "unit": "kN.m",
+          "description": "[VERIFY] Rated shaft torque (rated MW / shaft angular speed). Not held in the lake; set when rated speed is known.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "co2_t_per_mwh",
+          "type": "float64",
+          "unit": "tCO2/MWh",
+          "description": "[VERIFY] Emission intensity of this asset. The lake holds only regional grid intensity, not per-asset figures; reserved for a future source.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Generator/names.csv (named by hand, not published). Null where not named.",
+          "source": "Generator/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Generator/names.csv. Null where not named.",
+          "source": "Generator/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Generator/names.csv. Null where not named.",
+          "source": "Generator/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Generator/names.csv.",
+          "source": "Generator/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "quality_flags",
+          "type": "string",
+          "unit": null,
+          "description": "Semicolon list of issues (for example no_fuel_type, no_capacity, no_elexon_registration). Empty when none.",
+          "source": "derived: builder checks",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        }
+      ]
+    },
+    "bm_dynamics": {
+      "kind": "observed",
+      "description": "Statistics of each BM unit's notified dynamic parameters (ramp rates, stable and maximum limits, notice and run times) and metered output, over the 365 days to the last-updated date. Kept apart from bm_units because they come from time-stamped operational data. profile_id is 'gen-dyn-' plus the slug of the Elexon id.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable profile identifier (see the table description for its form).",
+          "source": "derived: identity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Elexon datasets the statistics come from.",
+          "source": "derived: input files",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "Elexon BM unit id.",
+          "source": "Elexon bmUnit",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "bmu_id",
+          "type": "string",
+          "unit": null,
+          "description": "Elexon BM unit id; for a unit NESO lists without an Elexon registration, 'ng:' plus its National Grid id.",
+          "source": "Elexon bmUnit",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "fuel_folder",
+          "type": "string",
+          "unit": null,
+          "description": "Profiles folder under Generator (as in bm_units).",
+          "source": "derived: bm_units.fuel_folder",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "dynamics_window_start_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Start of the 365-day window the statistics use.",
+          "source": "derived: last updated minus 365 days",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_up_mw_per_min_p50",
+          "type": "float64",
+          "unit": "MW/min",
+          "description": "Median of the fastest notified run-up rate (the largest of the three RURE rate bands per notification).",
+          "source": "Elexon RURE rate1-3",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_up_mw_per_min_p90",
+          "type": "float64",
+          "unit": "MW/min",
+          "description": "90th percentile of the fastest notified run-up rate.",
+          "source": "Elexon RURE rate1-3",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_up_slowest_mw_per_min_p50",
+          "type": "float64",
+          "unit": "MW/min",
+          "description": "Median of the slowest run-up band per notification (the rate near the elbows).",
+          "source": "Elexon RURE rate1-3",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_down_mw_per_min_p50",
+          "type": "float64",
+          "unit": "MW/min",
+          "description": "Median of the fastest notified run-down rate.",
+          "source": "Elexon RDRE rate1-3",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_down_mw_per_min_p90",
+          "type": "float64",
+          "unit": "MW/min",
+          "description": "90th percentile of the fastest notified run-down rate.",
+          "source": "Elexon RDRE rate1-3",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_down_slowest_mw_per_min_p50",
+          "type": "float64",
+          "unit": "MW/min",
+          "description": "Median of the slowest run-down band per notification.",
+          "source": "Elexon RDRE rate1-3",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "import_ramp_up_mw_per_min_p50",
+          "type": "float64",
+          "unit": "MW/min",
+          "description": "Median fastest run-up rate on import (storage and pumped units).",
+          "source": "Elexon RURI rate1-3",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "import_ramp_down_mw_per_min_p50",
+          "type": "float64",
+          "unit": "MW/min",
+          "description": "Median fastest run-down rate on import.",
+          "source": "Elexon RDRI rate1-3",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "ramp_notifications",
+          "type": "int64",
+          "unit": "1",
+          "description": "Run-up and run-down export notifications in the window.",
+          "source": "derived: count",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "stable_export_limit_mw_p50",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Median stable export limit (the lowest steady output).",
+          "source": "Elexon SEL level",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "stable_import_limit_mw_p50",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Median stable import limit.",
+          "source": "Elexon SIL level",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "max_export_limit_mw_max",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Highest maximum export limit notified in the window.",
+          "source": "Elexon MELS levelTo",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "max_export_limit_mw_p50",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Median maximum export limit notified.",
+          "source": "Elexon MELS levelTo",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "notice_to_deviate_min_p50",
+          "type": "float64",
+          "unit": "min",
+          "description": "Median notice needed to move from zero output.",
+          "source": "Elexon NDZ notice",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "min_zero_time_min_p50",
+          "type": "float64",
+          "unit": "min",
+          "description": "Median minimum time the unit must stay at zero once there.",
+          "source": "Elexon MZT periodMin",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "min_non_zero_time_min_p50",
+          "type": "float64",
+          "unit": "min",
+          "description": "Median minimum time the unit must run once started.",
+          "source": "Elexon MNZT periodMin",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "metered_periods",
+          "type": "int64",
+          "unit": "1",
+          "description": "Half-hours with a metered output value in the window.",
+          "source": "derived: count",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "output_mw_mean",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Mean metered output (B1610 energy per half-hour x 2).",
+          "source": "Elexon B1610 quantity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "output_mw_p50",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Median metered output (nearest rank on 0.1 MW bins).",
+          "source": "Elexon B1610 quantity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "output_mw_p99",
+          "type": "float64",
+          "unit": "MW",
+          "description": "99th percentile of metered output (nearest rank on 0.1 MW bins).",
+          "source": "Elexon B1610 quantity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "output_mw_max",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Highest metered output.",
+          "source": "Elexon B1610 quantity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "capacity_factor",
+          "type": "float64",
+          "unit": "1",
+          "description": "output_mw_mean / capacity_mw.",
+          "source": "derived: output_mw_mean, capacity_mw",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "dynamics_window_end_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "End of the window: the profiles last-updated date.",
+          "source": "derived: last updated",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Generator/names.csv (named by hand, not published). Null where not named.",
+          "source": "Generator/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Generator/names.csv. Null where not named.",
+          "source": "Generator/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Generator/names.csv. Null where not named.",
+          "source": "Generator/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Generator/names.csv.",
+          "source": "Generator/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "quality_flags",
+          "type": "string",
+          "unit": null,
+          "description": "Semicolon list of issues (no_metered_output, no_dynamic_data; ramp_rate_999_notified: the unit notifies 999 MW/min, the convention for no ramp limit, kept as published; output_above_rule_max_rating: metered output above capacity / 0.8). Empty when none.",
+          "source": "derived: builder checks",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        }
+      ]
+    },
+    "stations": {
+      "kind": "reference",
+      "description": "One row per generating station from DESNZ DUKES 5.11 and the Renewable Energy Planning Database (REPD). REPD rows are kept when the project is operational or still live (Operational, Under Construction, Awaiting Construction, Application Submitted, Appeal Lodged, No Application Required), so the table also serves forward planning; refused, withdrawn, abandoned, expired, revised and decommissioned records are left out. Each source's latest snapshot dated on or before the last-updated date is used. profile_id is 'gen-dukes-' or 'gen-repd-' plus the source key.",
+      "fields": [
+        {
+          "name": "profile_id",
+          "type": "string",
+          "unit": null,
+          "description": "Stable profile identifier (see the table description for its form).",
+          "source": "derived: identity",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "profile_rev",
+          "type": "int64",
+          "unit": "1",
+          "description": "Revision of this profile. It stays the same while the profile's content is unchanged and goes up by one when any value changes, so profile_id@profile_rev always means one fixed set of values.",
+          "source": "derived: previous build's revision and content_sha256",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "content_sha256",
+          "type": "string",
+          "unit": null,
+          "description": "SHA-256 of the profile's values (every field except profile_rev, content_sha256 and last_updated_utc, floats by their exact bits). Used to decide when profile_rev goes up.",
+          "source": "derived: row values",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_dataset",
+          "type": "string",
+          "unit": null,
+          "description": "Lake dataset the row was built from.",
+          "source": "derived: input file",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source_key",
+          "type": "string",
+          "unit": null,
+          "description": "The row's key in its source.",
+          "source": "source row identity",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "last_updated_utc",
+          "type": "timestamp",
+          "unit": null,
+          "description": "Profiles last updated: the date these profiles were brought up to.",
+          "source": "derived: build date",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "source",
+          "type": "string",
+          "unit": null,
+          "description": "dukes (DESNZ DUKES 5.11 power stations) or repd (DESNZ Renewable Energy Planning Database). Large sites can appear in both.",
+          "source": "derived: input file",
+          "provenance": "Recorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "station_name",
+          "type": "string",
+          "unit": null,
+          "description": "Site name as published.",
+          "source": "DUKES site_name / REPD site_name",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "company",
+          "type": "string",
+          "unit": null,
+          "description": "Owner, operator or applicant as published.",
+          "source": "DUKES company_name / REPD operator_or_applicant",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "technology",
+          "type": "string",
+          "unit": null,
+          "description": "Technology or plant type as published (for example CCGT, Wind Onshore, Battery).",
+          "source": "DUKES type / REPD technology_type",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "primary_fuel",
+          "type": "string",
+          "unit": null,
+          "description": "Primary fuel (DUKES only).",
+          "source": "DUKES primary_fuel",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "secondary_fuel",
+          "type": "string",
+          "unit": null,
+          "description": "Secondary fuel (DUKES only).",
+          "source": "DUKES secondary_fuel",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "chp",
+          "type": "bool",
+          "unit": null,
+          "description": "True when the site is combined heat and power (DUKES chp, REPD chp_enabled). Null where not stated.",
+          "source": "DUKES chp / REPD chp_enabled",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "fuel_folder",
+          "type": "string",
+          "unit": null,
+          "description": "Profiles folder under Generator.",
+          "source": "derived: technology and fuel via the builder's FUEL tables",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        },
+        {
+          "name": "development_status",
+          "type": "string",
+          "unit": null,
+          "description": "REPD development status (Operational, Under Construction, Awaiting Construction, Application Submitted and so on). DUKES lists operating stations, so its rows read Operational.",
+          "source": "REPD development_status_short",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "capacity_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Installed electrical capacity.",
+          "source": "DUKES installedcapacity_mw / REPD installed_capacity_mwelec",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rated_mva_assumed",
+          "type": "float64",
+          "unit": "MVA",
+          "description": "[VERIFY] Machine MVA base for per-unit values (pu@machine, H): capacity_mw / 0.9, using the power factor GDA's inertia work assumes. Assumed, not published: replace when a published MVA rating is found.",
+          "source": "derived: capacity_mw / 0.9 (assumed power factor)",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "storage_mwh",
+          "type": "float64",
+          "unit": "MWh",
+          "description": "[VERIFY] Storage energy capacity. Not published in the REPD columns held; reserved for a future source.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "max_rating_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Estimated maximum rating, on the rule that nameplate capacity is 80% of the machine's maximum: capacity / 0.8.",
+          "source": "derived: capacity / 0.8 (Mark's rule)",
+          "provenance": "Synthetic",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "thermal_headroom_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Estimated thermal headroom above nameplate: max_rating_mw minus capacity.",
+          "source": "derived: max_rating_mw - capacity",
+          "provenance": "Synthetic",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "inertia_h_s",
+          "type": "float64",
+          "unit": "s",
+          "description": "[VERIFY] Typical inertia constant H for the fuel, on the machine's own MVA base, from GDA's documented table (Scripts/build_inertia_reconstructed.py H_BY_FUEL: NESO, ENTSO-E and classical machine ranges). Null for converter-connected plant, which adds no true inertia.",
+          "source": "GDA H_BY_FUEL by fuel",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "stored_energy_s_mva",
+          "type": "float64",
+          "unit": "s.MVA",
+          "description": "[VERIFY] Kinetic energy at rated speed: inertia_h_s x rated_mva_assumed.",
+          "source": "derived: inertia_h_s, rated_mva_assumed",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "pole_count",
+          "type": "int64",
+          "unit": "1",
+          "description": "[VERIFY] Number of generator poles. Not held in the lake; reserved for a future source.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rated_speed_rpm",
+          "type": "float64",
+          "unit": "rpm",
+          "description": "[VERIFY] Rated shaft speed (120 x 50 / pole_count). Not held in the lake; set when pole_count is known.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "rated_torque_knm",
+          "type": "float64",
+          "unit": "kN.m",
+          "description": "[VERIFY] Rated shaft torque (rated MW / shaft angular speed). Not held in the lake; set when rated speed is known.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "co2_t_per_mwh",
+          "type": "float64",
+          "unit": "tCO2/MWh",
+          "description": "[VERIFY] Emission intensity of this asset. The lake holds only regional grid intensity, not per-asset figures; reserved for a future source.",
+          "source": "none",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "year_commissioned",
+          "type": "int64",
+          "unit": "1",
+          "description": "Year commissioned (DUKES) or year it became operational (REPD).",
+          "source": "DUKES year_commissioned / REPD operational",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "region",
+          "type": "string",
+          "unit": null,
+          "description": "Region as published.",
+          "source": "DUKES region / REPD region",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "dno_licence_area",
+          "type": "string",
+          "unit": null,
+          "description": "DNO licence area the site's coordinates fall in.",
+          "source": "Derived/asset_geography.dno_license_area",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "gsp_region",
+          "type": "string",
+          "unit": null,
+          "description": "GSP region the site's coordinates fall in.",
+          "source": "Derived/asset_geography.gsp_region",
+          "provenance": "DerivedFromRecorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "easting",
+          "type": "float64",
+          "unit": "m",
+          "description": "OSGB easting in metres (British National Grid, EPSG:27700). Identifies the site, so sensitive.",
+          "source": "DUKES / REPD x_coordinate",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "northing",
+          "type": "float64",
+          "unit": "m",
+          "description": "OSGB northing in metres (British National Grid, EPSG:27700). Identifies the site, so sensitive.",
+          "source": "DUKES / REPD y_coordinate",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "postcode",
+          "type": "string",
+          "unit": null,
+          "description": "Postcode as published.",
+          "source": "DUKES / REPD postcode",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "turbines",
+          "type": "int64",
+          "unit": "1",
+          "description": "Number of turbines (REPD wind).",
+          "source": "REPD no_of_turbines",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "turbine_capacity_mw",
+          "type": "float64",
+          "unit": "MW",
+          "description": "Capacity per turbine (REPD wind).",
+          "source": "REPD turbine_capacity_mw",
+          "provenance": "Recorded",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "named_operator",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Operator or owner of the asset, from Generator/names.csv (named by hand, not published). Null where not named.",
+          "source": "Generator/names.csv operator",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_site",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site name, from Generator/names.csv. Null where not named.",
+          "source": "Generator/names.csv site_name",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_address",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Site address, from Generator/names.csv. Null where not named.",
+          "source": "Generator/names.csv address",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": true
+        },
+        {
+          "name": "named_by",
+          "type": "string",
+          "unit": null,
+          "description": "[VERIFY] Who named the asset and when, from Generator/names.csv.",
+          "source": "Generator/names.csv named_by",
+          "provenance": "CuratedPlaceholder",
+          "nullable": true,
+          "sensitive": false
+        },
+        {
+          "name": "quality_flags",
+          "type": "string",
+          "unit": null,
+          "description": "Semicolon list of issues (for example no_capacity). Empty when none.",
+          "source": "derived: builder checks",
+          "provenance": "DerivedFromRecorded",
+          "nullable": false,
+          "sensitive": false
+        }
+      ]
+    }
+  }
+}
